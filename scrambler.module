@@ -1,0 +1,26 @@
+<?php
+/**
+ * @file
+ * Scrambler - Scramble your data your way.
+ */
+
+require_once 'includes/scrambler.entity.inc'; 
+require_once 'includes/scrambler.view.inc';
+
+/**
+ * Implements hook_menu().
+ */
+function scrambler_menu() {
+  $menu = new \Drupal\scrambler\Page\Page();
+
+  return $menu->getMenuItems();
+}
+
+/**
+ * Implements hook_permission().
+ */
+function scrambler_permission() {
+  $permission = new \Drupal\scrambler\Security\Permission();
+
+  return $permission->getPermission();
+}
