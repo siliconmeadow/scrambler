@@ -12,19 +12,19 @@
 
 namespace Drupal\scrambler\Drush;
 
-use Drupal\scrambler\BLL\Helper;
+use Drupal\scrambler\BLL\API;
 
 class Drush {
   /**
-   * @var \Drupal\scrambler\BLL\Helper;
+   * @var \Drupal\scrambler\BLL\API;
    */
-  private $helper;
+  private $api;
 
   /**
    * Class constructor.
    */
   public function __construct() {
-    $this->helper = new Helper();
+    $this->api = new API();
   }
 
   /**
@@ -32,7 +32,7 @@ class Drush {
    */
   public function execute() {
     if ($this->proceed()) {
-      $this->helper->scramble();
+      $this->api->scramble();
     }
   }
 

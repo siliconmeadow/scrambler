@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Helper class for the scramble module.
+ * API class for the scramble module.
  */
 
 namespace Drupal\scrambler\BLL;
@@ -11,7 +11,7 @@ use Drupal\scrambler\Config\Variable;
 /**
  * Helper class object.
  */
-class Helper {
+class API {
 
   /**
    * @var \Drupal\scrambler\Config\Variable
@@ -19,7 +19,7 @@ class Helper {
   private $variable;
 
   /**
-   * Helper class constructor.
+   * API class constructor.
    */
   public function __construct() {
     $this->variable = new Variable();
