@@ -41,7 +41,7 @@ class Helper {
     foreach ($this->getScramblerFields() as $field_name) {
       $field = field_info_field($field_name);
       if (field_has_data($field) && $this->fieldStoredInSql($field)) {
-        $field_entities = $this->getFieldEntities($field);
+        $field_entities = $this->getFieldEntities($field_name);
         foreach ($field_entities as $entity_type => $entities) {
           $ids = $shuffled = array_keys($entities);
           shuffle($shuffled);
@@ -132,10 +132,11 @@ class Helper {
    * @return array
    *   Returns an array of entities.s
    */
-  private function getFieldEntities($field_name) {
+  private function getFieldEntities($field) {
     $query = new \EntityFieldQuery();
-    if ($field_name != 'title') {
-      $query->fieldCondition($field_name);
+    if ($field != 'title') {
+// TODO Check reason for non working fieldcondition query
+//      $query->fieldCondition($field);
     }
     $query->entityCondition('entity_type', 'node');
     $query->entityCondition('bundle', array_keys(array_filter($this->variable->getContentTypes())), 'IN');
