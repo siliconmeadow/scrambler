@@ -28,7 +28,7 @@ function scrambler_administer_fields_page() {
  */
 function scrambler_general_settings_form($form, &$form_state) {
   $variable = new \Drupal\scrambler\Config\Variable();
-  $helper = new \Drupal\scrambler\BLL\Helper();
+  $api = new \Drupal\scrambler\BLL\API();
 
   $form['scrambler_general'] = array(
     '#type' => 'fieldset',
@@ -43,7 +43,7 @@ function scrambler_general_settings_form($form, &$form_state) {
   $form['scrambler_general']['content_types'] = array(
     '#type' => 'checkboxes',
     '#title' => t('Scramble content types'),
-    '#options' => $helper->getContentTypes(),
+    '#options' => $api->getContentTypes(),
     '#default_value' => $variable->getContentTypes(),
   );
 
@@ -69,8 +69,8 @@ function scrambler_fields_form($form, &$form_state) {
     return array();
   }
 
-  $helper = new \Drupal\scrambler\BLL\Helper();
-  $fields = $helper->getScramblerFields(FALSE);
+  $api = new \Drupal\scrambler\BLL\API();
+  $fields = $api->getScramblerFields(FALSE);
 
   $form['scrambler_fields'] = array(
     '#type' => 'fieldset',
@@ -106,8 +106,8 @@ function scrambler_fields_form($form, &$form_state) {
  *   The form state of the form object to be submitted.
  */
 function scrambler_fields_form_submit($form, &$form_state) {
-  $helper = new \Drupal\scrambler\BLL\Helper();
-  $fields = $helper->getScramblerFields();
+  $api = new \Drupal\scrambler\BLL\Api();
+  $fields = $api->getScramblerFields();
 
   if (array_key_exists($form_state['values']['scrambler_field'], $fields)) {
     drupal_set_message(

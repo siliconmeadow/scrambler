@@ -9,7 +9,7 @@ namespace Drupal\scrambler\BLL;
 use Drupal\scrambler\Config\Variable;
 
 /**
- * Helper class object.
+ * API class object.
  */
 class API {
 
@@ -29,6 +29,7 @@ class API {
    * Start scrambling the database.
    */
   public function scramble() {
+    // TODO: Instead of shuffling, swap step-by-step and check for other DIFFERENT values.
     if ($this->variable->getTitle() == 1) {
       foreach ($this->getFieldEntities('title') as $entity_type => $entities) {
         $ids = $shuffled = array_keys($entities);

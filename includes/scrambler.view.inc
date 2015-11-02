@@ -254,8 +254,8 @@ function scrambler_status_field_action_submit($form, $form_state) {
  *   Contains all the variable information of the views_view_table theme.
  */
 function scrambler_preprocess_views_view_table(&$vars) {
-  $helper = new \Drupal\scrambler\BLL\Helper();
-  $fields = $helper->getScramblerFields();
+  $api = new \Drupal\scrambler\BLL\Api();
+  $fields = $api->getScramblerFields();
 
   foreach ($vars['rows'] as &$row) {
     if ($row['field_name'] != 0) {
