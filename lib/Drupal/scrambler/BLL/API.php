@@ -35,7 +35,7 @@ class API {
         $ids = $shuffled = array_keys($entities);
         shuffle($shuffled);
         foreach ($ids as $key => $id) {
-          $this->swapFields($entity_type, $id, $shuffled[$key], 'title');
+          $this->swapFields($entity_type, $id, $shuffled, 'title');
         }
       }
     }
@@ -47,7 +47,7 @@ class API {
           $ids = $shuffled = array_keys($entities);
           shuffle($shuffled);
           foreach ($ids as $key => $id) {
-            $this->swapFields($entity_type, $id, $shuffled[$key], $field_name);
+            $this->swapFields($entity_type, $id, $shuffled, $field_name);
           }
         }
       }
@@ -95,15 +95,29 @@ class API {
    *   Contains the current entity type.
    * @param int $id_one
    *   Contains the id of the first entity.
-   * @param int $id_two
-   *   Contains the id of the second entity.
+   * @param array $shuffled
+   *   Contains an array of shuffled ids.
    * @param string $field_name
    *   Contains the field name.
    */
-  private function swapFields($entity_type, $id_one, $id_two, $field_name) {
+  private function swapFields($entity_type, $id_one, $shuffled, $field_name) {
+    $shuffle_key = 0;
+    $doContinue = TRUE;
     $entity_one = entity_load_single($entity_type, $id_one);
-    $entity_two = entity_load_single($entity_type, $id_two);
+    $entity_two = entity_load_single($entity_type, $shuffled[$shuffle_key]);
+    while ($doContinue && ($entity_one->{$field_name} == $entity_two->{$field_name})) {
+      $shuffle_key += 1;
+      $doContinue = isset($shuffled[$shuffle_key]);
+      if ($doContinue) {
+        $entity_two = entity_load_single($entity_type, $shuffled[$shuffle_key]);
+      }
+    }
+    if ($entity_one->{$field_name} == $entity_two->{$field_name}) {
+      // TODO - Create next scrambling method in case of exact same value.
+    }
+    unset($shuffle_key[$shuffle_key]);
     $this->swapValues($entity_one, $entity_two, $field_name);
+    $this->removeFieldValue($entity_one, $field_name);
     entity_save($entity_type, $entity_one);
     entity_save($entity_type, $entity_two);
   }
@@ -158,5 +172,9 @@ class API {
       $options[$key] = $type->name;
     }
     return $options;
+  }
+
+  private function removeFieldValue($entity, $field_name) {
+
   }
 }
