@@ -16,6 +16,37 @@ function scrambler_administer_fields_page() {
 }
 
 /**
+ * Generates the settings form.
+ *
+ * @param array $form
+ *   The form object to be generated.
+ * @param array $form_state
+ *   The form state of the form object to be generated.
+ *
+ * @return array
+ *   Returns the generated form object.
+ */
+function scrambler_settings_form($form, &$form_state) {
+
+  $menu_entries = array(
+    'items' => array(
+      l('General settings', 'admin/config/development/scrambler/general'),
+      l('Field settings', 'admin/config/development/scrambler/fields'),
+    ),
+    'type' => 'ul',
+    'title' => t('Configure the scrambling process'),
+    'attributes' => array(),
+  );
+
+  $form['menu'] = array(
+    '#type' => 'markup',
+    '#markup' => theme_item_list($menu_entries),
+  );
+
+  return $form;
+}
+
+/**
  * Generates the general settings form.
  *
  * @param array $form
