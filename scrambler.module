@@ -11,9 +11,9 @@ require_once 'includes/scrambler.view.inc';
  * Implements hook_menu().
  */
 function scrambler_menu() {
-  $menu = new \Drupal\scrambler\Page\Page();
+  $config = new \Drupal\scrambler\Controller\ConfigController();
 
-  return $menu->getMenuItems();
+  return $config->getMenuItems();
 }
 
 /**

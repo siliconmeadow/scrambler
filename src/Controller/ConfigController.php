@@ -1,17 +1,22 @@
 <?php
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * @file
+ *   Contains the configuration controllers.
  */
+
+namespace Drupal\scrambler\Controller;
 
 /**
- * Description of Page
- *
- * @author Greg Bakos <greg@londonfreelancers.co.uk>
+ * Configuration controller class.
  */
-namespace Drupal\scrambler\Page;
+class ConfigController {
 
-class Page {
+  /**
+   * Get all the configuration menu items.
+   *
+   * @return array
+   *   Returns an array of configuration menu items.
+   */
   public function getMenuItems() {
     return array(
       'admin/config/development/scrambler/fields' =>  array(
