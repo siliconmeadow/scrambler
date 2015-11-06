@@ -20,8 +20,8 @@ class ConfigController {
   public function getMenuItems() {
     return array(
       'admin/config/development/scrambler' => array(
-        'title' => 'Configure Scrambler',
-        'description' => 'Configure Scrambling.',
+        'title' => t('Configure Scrambler'),
+        'description' => t('Configure Scrambling.'),
         'page callback' => 'drupal_get_form',
         'page arguments' => array('scrambler_settings_form'),
         'type' => MENU_NORMAL_ITEM,
@@ -30,16 +30,16 @@ class ConfigController {
         'file path' => drupal_get_path('module', 'scrambler'),
       ),
       'admin/config/development/scrambler/fields' =>  array(
-        'title' => 'Configure Fields Scrambler',
-        'description' => 'Configure which fields need to be scrambled.',
+        'title' => t('Configure Fields Scrambler'),
+        'description' => t('Configure which fields need to be scrambled.'),
         'page callback' => 'scrambler_administer_fields_page',
         'access arguments' => array('administer scrambler fields'),
         'file' => 'includes/scrambler.admin.inc',
         'file path' => drupal_get_path('module', 'scrambler'),
       ),
       'admin/config/development/scrambler/general' => array(
-        'title' => 'Configure General Scrambler',
-        'description' => 'Configure general settings for scrambling.',
+        'title' => t('Configure General Scrambler'),
+        'description' => t('Configure general settings for scrambling.'),
         'page callback' => 'drupal_get_form',
         'page arguments' => array('scrambler_general_settings_form'),
         'access arguments' => array('administer scrambler'),
