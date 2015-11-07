@@ -7,6 +7,7 @@
 namespace Drupal\scrambler\BLL;
 
 use Drupal\scrambler\Config\Variable;
+use Drupal\scrambler\Controller;
 
 /**
  * API class object.
@@ -29,6 +30,10 @@ class API {
    * Start scrambling the database.
    */
   public function scramble() {
+    $parameters = new Controller\ScrambleController();
+
+    // @todo: Check for implementations here with $parameters->getImplementations()
+
     // TODO: Instead of shuffling, swap step-by-step and check for other DIFFERENT values.
     if ($this->variable->getTitle() == 1) {
       foreach ($this->getFieldEntities('title') as $entity_type => $entities) {

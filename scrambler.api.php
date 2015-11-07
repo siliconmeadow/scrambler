@@ -12,6 +12,5 @@ use Drupal\scrambler\Config;
  */
 function hook_scrambler_api() {
   $api = array();
-
   return $api;
 }
