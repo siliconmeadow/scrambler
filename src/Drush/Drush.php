@@ -37,7 +37,7 @@ class Drush {
   }
 
   private function provideFeedback($message) {
-    drush_log($message, $type = 'ok');
+    drush_log(dt($message), $type = 'ok');
   }
 
   /**
