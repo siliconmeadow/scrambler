@@ -1,0 +1,10 @@
+name = Scrambler Example
+description = A demo module that contains examples.
+configure = admin/config/development/scrambler
+package = Data security
+core = 7.x
+
+dependencies[] = entity
+dependencies[] = views
+dependencies[] = views_bulk_operations
+dependencies[] = xautoload
