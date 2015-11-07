@@ -31,13 +31,14 @@ class Drush {
    * Acknowledge execution and start scrambling.
    */
   public function execute() {
-    if ($this->proceed() && $this->api->scramble() == TRUE) {
-      $this->provideFeedback('Successfully scrambled.');
+    if ($this->proceed()) {
+      if ($this->api->scramble() == TRUE) {
+        drush_log(dt('Successfully scrambled.'), $type = 'ok');
+      }
+      else {
+        drush_log(dt('Something went wrong.'), $type = 'error');
+      }
     }
-  }
-
-  private function provideFeedback($message) {
-    drush_log(dt($message), $type = 'ok');
   }
 
   /**
