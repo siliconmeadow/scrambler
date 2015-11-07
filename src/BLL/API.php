@@ -57,6 +57,8 @@ class API {
         }
       }
     }
+    // @todo: We are expecting the scramble to always return true, for now.
+    return true;
   }
 
   /**
