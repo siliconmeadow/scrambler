@@ -9,8 +9,6 @@
 /**
  * Implements hook_scrambler_api().
  */
-function scrambler_example_scrambler_api() {
-  $api['boolean'] = true;
-
-  return $api;
+function scrambler_example_scrambler_api(&$api) {
+  return TRUE;
 }

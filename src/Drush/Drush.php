@@ -32,6 +32,10 @@ class Drush {
    */
   public function execute() {
     if ($this->proceed()) {
+      foreach(module_implements('scrambler_api') as $module) {
+        $function = $module . '_scrambler_api';
+        $success = $function($this->api);
+      }
       if ($this->api->scramble() == TRUE) {
         drush_log(dt('Successfully scrambled.'), $type = 'ok');
       }
