@@ -1,0 +1,39 @@
+<?php
+/**
+ * @file
+ *   Contains field configuration scrambling methods.
+ */
+
+require_once 'includes/scrambler_field.entity.inc'; 
+require_once 'includes/scrambler_field.view.inc';
+
+/**
+ * Implements hook_menu().
+ */
+function scrambler_field_menu() {
+  $config = new \Drupal\scrambler_field\Controller\ConfigController();
+
+  return $config->getMenuItems();
+}
+
+/**
+ * Implements hook_permission().
+ */
+function scrambler_field_permission() {
+  $permission = new \Drupal\scrambler_field\Security\Permission();
+
+  return $permission->getPermission();
+}
+
+/**
+ * Implements hook_scrambler_api().
+ */
+function scrambler_field_scrambler_api(&$api) {
+  if ($this->api->scramble() == TRUE) {
+    drush_log(dt('Successfully scrambled.'), $type = 'ok');
+  }
+  else {
+    drush_log(dt('Something went wrong.'), $type = 'error');
+  }
+  return TRUE;
+}

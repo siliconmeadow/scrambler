@@ -6,7 +6,7 @@
 
 namespace Drupal\scrambler\BLL;
 
-use Drupal\scrambler\Config\Variable;
+//use Drupal\scrambler\Config\Variable;
 use Drupal\scrambler\Controller;
 
 /**
@@ -17,13 +17,13 @@ class API {
   /**
    * @var \Drupal\scrambler\Config\Variable
    */
-  private $variable;
+//  private $variable;
 
   /**
    * API class constructor.
    */
   public function __construct() {
-    $this->variable = new Variable();
+//    $this->variable = new Variable();
   }
 
   /**
@@ -35,7 +35,8 @@ class API {
     // @todo: Check for implementations here with $parameters->getImplementations()
 
     // TODO: Instead of shuffling, swap step-by-step and check for other DIFFERENT values.
-    if ($this->variable->getTitle() == 1) {
+    //if ($this->variable->getTitle() == 1) {
+    if (true) {
       foreach ($this->getFieldEntities('title') as $entity_type => $entities) {
         $ids = $shuffled = array_keys($entities);
         shuffle($shuffled);
@@ -161,7 +162,7 @@ class API {
 //      $query->fieldCondition($field);
     }
     $query->entityCondition('entity_type', 'node');
-    $query->entityCondition('bundle', array_keys(array_filter($this->variable->getContentTypes())), 'IN');
+    //$query->entityCondition('bundle', array_keys(array_filter($this->variable->getContentTypes())), 'IN');
 
     return $query->execute();
   }

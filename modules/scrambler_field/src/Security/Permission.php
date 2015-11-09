@@ -9,7 +9,7 @@
  *
  * @author Greg Bakos <greg@londonfreelancers.co.uk>
  */
-namespace Drupal\scrambler\Security;
+namespace Drupal\scrambler_field\Security;
 
 class Permission {
   public function getPermission() {

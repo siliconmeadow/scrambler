@@ -7,7 +7,7 @@
 /**
  * Implements hook_views_api().
  */
-function scrambler_views_api() {
+function scrambler_field_views_api() {
   return array(
     'api' => 3.0,
     'path' => drupal_get_path('module', 'HOOK'),
@@ -17,7 +17,7 @@ function scrambler_views_api() {
 /**
  * Implements hook_views_default_views().
  */
-function scrambler_views_default_views() {
+function scrambler_field_views_default_views() {
   $view = new view();
   $view->name = 'scrambler_fields_administrative_view';
   $view->description = '';
@@ -76,7 +76,7 @@ function scrambler_views_default_views() {
   $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['force_single'] = 0;
   $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['entity_load_capacity'] = '10';
   $handler->display->display_options['fields']['views_bulk_operations']['vbo_operations'] = array(
-    'action::scrambler_status_field_action' => array(
+    'action::scrambler_field_status_field_action' => array(
       'selected' => 1,
       'postpone_processing' => 0,
       'skip_confirmation' => 1,
@@ -180,9 +180,9 @@ function scrambler_views_default_views() {
 /**
  * Implements hook_action_info().
  */
-function scrambler_action_info() {
+function scrambler_field_action_info() {
   $actions = array();
-  $actions['scrambler_status_field_action'] = array(
+  $actions['scrambler_field_status_field_action'] = array(
     'type' => 'entity',
     'label' => t('Enable/disable scrambler'),
     'configurable' => TRUE,
@@ -200,7 +200,7 @@ function scrambler_action_info() {
  * @return array
  *   Returns the form structure array.
  */
-function scrambler_status_field_action_form($context) {
+function scrambler_field_status_field_action_form($context) {
   $form['status'] = array(
     '#type' => 'select',
     '#title' => t('Choose the state for the selected fields'),
@@ -222,7 +222,7 @@ function scrambler_status_field_action_form($context) {
  * @return NULL
  *   returns NULL in case no change needs to be done.
  */
-function scrambler_status_field_action($entity, $context) {
+function scrambler_field_status_field_action($entity, $context) {
   if ($entity->status == $context['status']) {
     return;
   }
@@ -241,7 +241,7 @@ function scrambler_status_field_action($entity, $context) {
  * @return array
  *   Returns an array with the status value.
  */
-function scrambler_status_field_action_submit($form, $form_state) {
+function scrambler_field_status_field_action_submit($form, $form_state) {
   return array(
     'status' => $form_state['values']['status'],
   );
@@ -253,7 +253,7 @@ function scrambler_status_field_action_submit($form, $form_state) {
  * @param array $vars
  *   Contains all the variable information of the views_view_table theme.
  */
-function scrambler_preprocess_views_view_table(&$vars) {
+function scrambler_field_preprocess_views_view_table(&$vars) {
   $api = new \Drupal\scrambler\BLL\Api();
   $fields = $api->getScramblerFields();
 

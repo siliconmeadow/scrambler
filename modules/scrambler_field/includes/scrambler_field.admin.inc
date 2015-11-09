@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Scrambler - Contains administrator functionality.
+ *   Contains administration functionality for scrambler fields.
  */
 
 /**
@@ -10,8 +10,8 @@
  * @return string
  *   Returns rendered content.
  */
-function scrambler_administer_fields_page() {
-  $form = drupal_get_form('scrambler_fields_form');
+function scrambler_field_administer_fields_page() {
+  $form = drupal_get_form('scrambler_field_fields_form');
   return render($form) . views_embed_view('scrambler_fields_administrative_view', 'block');
 }
 
@@ -26,7 +26,7 @@ function scrambler_administer_fields_page() {
  * @return array
  *   Returns the generated form object.
  */
-function scrambler_settings_form($form, &$form_state) {
+function scrambler_field_settings_form($form, &$form_state) {
 
   $menu_entries = array(
     'items' => array(
@@ -57,8 +57,8 @@ function scrambler_settings_form($form, &$form_state) {
  * @return array
  *   Returns the generated form object.
  */
-function scrambler_general_settings_form($form, &$form_state) {
-  $variable = new \Drupal\scrambler\Config\Variable();
+function scrambler_field_general_settings_form($form, &$form_state) {
+  $variable = new \Drupal\scrambler_field\Config\Variable();
   $api = new \Drupal\scrambler\BLL\API();
 
   $form['scrambler_general'] = array(
@@ -92,10 +92,10 @@ function scrambler_general_settings_form($form, &$form_state) {
  * @return array
  *   Returns the generated form object.
  */
-function scrambler_fields_form($form, &$form_state) {
+function scrambler_field_fields_form($form, &$form_state) {
   if (
     array_key_exists('form_id', $_POST) &&
-    ($_POST['form_id'] != 'scrambler_fields_form')
+    ($_POST['form_id'] != 'scrambler_field_fields_form')
   ) {
     return array();
   }
@@ -136,10 +136,9 @@ function scrambler_fields_form($form, &$form_state) {
  * @param array $form_state
  *   The form state of the form object to be submitted.
  */
-function scrambler_fields_form_submit($form, &$form_state) {
+function scrambler_field_fields_form_submit($form, &$form_state) {
   $api = new \Drupal\scrambler\BLL\Api();
   $fields = $api->getScramblerFields();
-
   if (array_key_exists($form_state['values']['scrambler_field'], $fields)) {
     drupal_set_message(
       t('Added %s to scrambler.',

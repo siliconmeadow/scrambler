@@ -1,0 +1,11 @@
+name = Fields Scrambler
+description = Contains functions to scramble fields using the scrambler API.
+configure = admin/config/development/scrambler
+package = Data security
+core = 7.x
+
+dependencies[] = entity
+dependencies[] = scrambler
+dependencies[] = views
+dependencies[] = views_bulk_operations
+dependencies[] = xautoload

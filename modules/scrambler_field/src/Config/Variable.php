@@ -5,7 +5,7 @@
  */
 
 
-namespace Drupal\scrambler\Config;
+namespace Drupal\scrambler_field\Config;
 /**
  * Description of Variable
  *

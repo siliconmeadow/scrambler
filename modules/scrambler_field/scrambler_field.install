@@ -1,17 +1,15 @@
 <?php
 /**
  * @file
- * Scrambler install and update hooks.
+ * Scrambler field install and update hooks.
  */
-
-require_once 'includes/scrambler.action.inc';
 
 /**
  * Implements hook_schema().
  */
-function scrambler_schema() {
+function scrambler_field_schema() {
   $schema['scrambler_field'] = array(
-    'description' => 'The table for configured the sanitization of fields',
+    'description' => 'Scramble fields configuration table',
     'fields' => array(
       'fid' => array(
         'type' => 'int',
@@ -22,7 +20,7 @@ function scrambler_schema() {
       'action' => array(
         'type' => 'int',
         'not null' => TRUE,
-        'default' => SCRAMBLER_ACTION_SCRAMBLE,
+        'default' => 1,
         'description' => "Define the action to be executed during scrambling.",
       ),
       'status' => array(

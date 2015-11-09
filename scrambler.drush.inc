@@ -23,5 +23,4 @@ function scrambler_drush_command() {
 function drush_scrambler_scramble() {
   $drush = new \Drupal\scrambler\Drush\Drush;
   $drush->execute();
-
 }

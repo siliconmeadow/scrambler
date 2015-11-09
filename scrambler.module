@@ -3,24 +3,3 @@
  * @file
  * Scrambler - Scramble your data your way.
  */
-
-require_once 'includes/scrambler.entity.inc'; 
-require_once 'includes/scrambler.view.inc';
-
-/**
- * Implements hook_menu().
- */
-function scrambler_menu() {
-  $config = new \Drupal\scrambler\Controller\ConfigController();
-
-  return $config->getMenuItems();
-}
-
-/**
- * Implements hook_permission().
- */
-function scrambler_permission() {
-  $permission = new \Drupal\scrambler\Security\Permission();
-
-  return $permission->getPermission();
-}

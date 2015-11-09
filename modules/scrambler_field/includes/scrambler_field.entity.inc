@@ -7,7 +7,7 @@
 /**
  * Implements hook_entity_info().
  */
-function scrambler_entity_info() {
+function scrambler_field_entity_info() {
   return array(
     'scrambler_field' => array(
       'base table' => 'scrambler_field',
@@ -34,7 +34,7 @@ function scrambler_entity_info() {
  * @return string
  *   Returns the field name.
  */
-function scrambler_entity_label_callback($entity, $type) {
+function scrambler_field_entity_label_callback($entity, $type) {
   if ($type != 'scrambler_field') {
     return FALSE;
   }
@@ -47,7 +47,7 @@ function scrambler_entity_label_callback($entity, $type) {
 /**
  * Implements hook_entity_property_info().
  */
-function scrambler_entity_property_info() {
+function scrambler_field_entity_property_info() {
   return array(
     'scrambler_field' => array(
       'properties' => array(
