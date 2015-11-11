@@ -24,7 +24,9 @@ class Scramble {
    * API class constructor.
    */
   public function __construct(&$api) {
-    $this->api = $api;
+    if (!empty($api)) {
+      $this->api = $api;
+    }
     $this->variable = new Variable();
   }
   
@@ -83,7 +85,7 @@ class Scramble {
    * @return array
    *   Returns an array of fields.
    */
-  private function getScramblerFields($all = TRUE) {
+  public function getScramblerFields($all = TRUE) {
     $entities = entity_load('scrambler_field');
     $fields = field_info_fields();
     $result = array();
@@ -151,7 +153,7 @@ class Scramble {
    * @return array
    *   Returns a simple array of all content types.
    */
-  private function getContentTypes() {
+  public function getContentTypes() {
     $types = node_type_get_types();
     $options = array();
     foreach ($types as $key => $type) {

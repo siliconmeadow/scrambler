@@ -12,7 +12,6 @@ use Drupal\scrambler\Controller;
  * API class object.
  */
 class API {
-
   /**
    * API class constructor.
    */

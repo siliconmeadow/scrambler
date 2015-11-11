@@ -59,7 +59,7 @@ function scrambler_field_settings_form($form, &$form_state) {
  */
 function scrambler_field_general_settings_form($form, &$form_state) {
   $variable = new \Drupal\scrambler_field\Config\Variable();
-  $api = new \Drupal\scrambler\BLL\API();
+  $scrambler = new \Drupal\scrambler_field\BLL\Scramble();
 
   $form['scrambler_general'] = array(
     '#type' => 'fieldset',
@@ -74,7 +74,7 @@ function scrambler_field_general_settings_form($form, &$form_state) {
   $form['scrambler_general']['content_types'] = array(
     '#type' => 'checkboxes',
     '#title' => t('Scramble content types'),
-    '#options' => $api->getContentTypes(),
+    '#options' => $scrambler->getContentTypes(),
     '#default_value' => $variable->getContentTypes(),
   );
 
@@ -100,8 +100,8 @@ function scrambler_field_fields_form($form, &$form_state) {
     return array();
   }
 
-  $api = new \Drupal\scrambler\BLL\API();
-  $fields = $api->getScramblerFields(FALSE);
+  $scramble = new \Drupal\scrambler_field\BLL\Scramble();
+  $fields = $scramble->getScramblerFields(FALSE);
 
   $form['scrambler_fields'] = array(
     '#type' => 'fieldset',
