@@ -3,8 +3,7 @@
  * @file
  *   Contains field configuration scrambling methods.
  */
-
-require_once 'includes/scrambler_field.entity.inc'; 
+require_once 'includes/scrambler_field.entity.inc';
 require_once 'includes/scrambler_field.view.inc';
 
 /**
@@ -29,11 +28,14 @@ function scrambler_field_permission() {
  * Implements hook_scrambler_api().
  */
 function scrambler_field_scrambler_api(&$api) {
-  if ($this->api->scramble() == TRUE) {
-    drush_log(dt('Successfully scrambled.'), $type = 'ok');
+  $scrambler = new \Drupal\scrambler_field\BLL\Scramble($api);
+  $result = $scrambler->execute();
+  if ($result) {
+    drush_log(dt('Successfully scrambled fields.'), $type = 'ok');
   }
   else {
-    drush_log(dt('Something went wrong.'), $type = 'error');
+    drush_log(dt('Something went wrong while scrambling fields.'), $type = 'error');
   }
-  return TRUE;
+
+  return $result;
 }
