@@ -23,10 +23,8 @@ class Scramble {
   /**
    * API class constructor.
    */
-  public function __construct(&$api) {
-    if (!empty($api)) {
-      $this->api = $api;
-    }
+  public function __construct($api = NULL) {
+    $this->api = $api;
     $this->variable = new Variable();
   }
   
