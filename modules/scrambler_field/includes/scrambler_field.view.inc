@@ -73,61 +73,12 @@ function scrambler_field_views_default_views() {
   $handler->display->display_options['fields']['views_bulk_operations']['field'] = 'views_bulk_operations';
   $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['display_type'] = '0';
   $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['enable_select_all_pages'] = 1;
+  $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['row_clickable'] = 1;
   $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['force_single'] = 0;
   $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['entity_load_capacity'] = '10';
   $handler->display->display_options['fields']['views_bulk_operations']['vbo_operations'] = array(
-    'action::scrambler_field_status_field_action' => array(
-      'selected' => 1,
-      'postpone_processing' => 0,
-      'skip_confirmation' => 1,
-      'override_label' => 0,
-      'label' => '',
-    ),
     'action::views_bulk_operations_delete_item' => array(
       'selected' => 1,
-      'postpone_processing' => 0,
-      'skip_confirmation' => 0,
-      'override_label' => 0,
-      'label' => '',
-    ),
-    'action::views_bulk_operations_delete_revision' => array(
-      'selected' => 0,
-      'postpone_processing' => 0,
-      'skip_confirmation' => 0,
-      'override_label' => 0,
-      'label' => '',
-    ),
-    'action::views_bulk_operations_script_action' => array(
-      'selected' => 0,
-      'postpone_processing' => 0,
-      'skip_confirmation' => 0,
-      'override_label' => 0,
-      'label' => '',
-    ),
-    'action::views_bulk_operations_modify_action' => array(
-      'selected' => 0,
-      'postpone_processing' => 0,
-      'skip_confirmation' => 1,
-      'override_label' => 0,
-      'label' => '',
-      'settings' => array(
-        'show_all_tokens' => 1,
-        'display_values' => array(
-          '_all_' => '_all_',
-        ),
-      ),
-    ),
-    'action::views_bulk_operations_argument_selector_action' => array(
-      'selected' => 0,
-      'skip_confirmation' => 0,
-      'override_label' => 0,
-      'label' => '',
-      'settings' => array(
-        'url' => '',
-      ),
-    ),
-    'action::system_send_email_action' => array(
-      'selected' => 0,
       'postpone_processing' => 0,
       'skip_confirmation' => 0,
       'override_label' => 0,
@@ -139,15 +90,10 @@ function scrambler_field_views_default_views() {
   $handler->display->display_options['fields']['field_name']['table'] = 'scrambler_field';
   $handler->display->display_options['fields']['field_name']['field'] = 'field_name';
   $handler->display->display_options['fields']['field_name']['label'] = 'Veldnaam';
-  /* Field: Scrambler field: Status */
-  $handler->display->display_options['fields']['status']['id'] = 'status';
-  $handler->display->display_options['fields']['status']['table'] = 'scrambler_field';
-  $handler->display->display_options['fields']['status']['field'] = 'status';
-  $handler->display->display_options['fields']['status']['label'] = 'Status';
-  $handler->display->display_options['fields']['status']['separator'] = '';
 
   /* Display: Block */
   $handler = $view->new_display('block', 'Block', 'block');
+
   $translatables['scrambler_fields_administrative_view'] = array(
     t('Master'),
     t('Scrambler fields administrative view'),
@@ -168,83 +114,12 @@ function scrambler_field_views_default_views() {
     t('Scrambler field'),
     t('- Choose an operation -'),
     t('Veldnaam'),
-    t('Status'),
     t('.'),
     t('Block'),
   );
 
   $views[$view->name] = $view;
   return $views;
-}
-
-/**
- * Implements hook_action_info().
- */
-function scrambler_field_action_info() {
-  $actions = array();
-  $actions['scrambler_field_status_field_action'] = array(
-    'type' => 'entity',
-    'label' => t('Enable/disable scrambler'),
-    'configurable' => TRUE,
-    'triggers' => array('any'),
-  );
-
-  return $actions;
-}
-
-/**
- * Generates the status field action form.
- *
- * @param array $context
- *   Contains the context array.
- * @return array
- *   Returns the form structure array.
- */
-function scrambler_field_status_field_action_form($context) {
-  $form['status'] = array(
-    '#type' => 'select',
-    '#title' => t('Choose the state for the selected fields'),
-    '#options' => array('0' => t('Disable'), '1' => t('Enable')),
-    '#default_value' => 1,
-  );
-
-  return $form;  
-}
-
-/**
- * Execute vbo scrambler status field action.
- *
- * @param \Entity $entity
- *   Contains the entity of which the status needs to be changed.
- * @param array $context
- *   Contains the context of the action to be executed.
- *
- * @return NULL
- *   returns NULL in case no change needs to be done.
- */
-function scrambler_field_status_field_action($entity, $context) {
-  if ($entity->status == $context['status']) {
-    return;
-  }
-  $entity->status = $context['status'];
-  $entity->save();
-}
-
-/**
- * Submit handler for the status field action.
- *
- * @param array $form
- *   Contains the form structure.
- * @param array $form_state
- *   Contains the form state of the form.
- *
- * @return array
- *   Returns an array with the status value.
- */
-function scrambler_field_status_field_action_submit($form, $form_state) {
-  return array(
-    'status' => $form_state['values']['status'],
-  );
 }
 
 /**
@@ -261,7 +136,5 @@ function scrambler_field_preprocess_views_view_table(&$vars) {
     if ($row['field_name'] != 0) {
       $row['field_name'] = $fields[$row['field_name']];
     }
-
-    $row['status'] = $row['status'] == 1 ? t('Enabled') : t('Disabled');
   }
 }

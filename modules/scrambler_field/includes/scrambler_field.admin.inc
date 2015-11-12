@@ -137,8 +137,8 @@ function scrambler_field_fields_form($form, &$form_state) {
  *   The form state of the form object to be submitted.
  */
 function scrambler_field_fields_form_submit($form, &$form_state) {
-  $api = new \Drupal\scrambler\BLL\Api();
-  $fields = $api->getScramblerFields();
+  $scramble = new \Drupal\scrambler_field\BLL\Scramble();
+  $fields = $scramble->getScramblerFields();
   if (array_key_exists($form_state['values']['scrambler_field'], $fields)) {
     drupal_set_message(
       t('Added %s to scrambler.',
