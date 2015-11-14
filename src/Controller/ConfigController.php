@@ -11,6 +11,10 @@ namespace Drupal\scrambler\Controller;
  * @inheritdoc
  */
 class ConfigController {
+  /**
+   * Main router entry.
+   * @return array
+   */
   function getMenuItems() {
     return array(
       'admin/config/development/scrambler' => array(
