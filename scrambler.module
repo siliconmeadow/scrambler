@@ -3,3 +3,12 @@
  * @file
  * Scrambler - Scramble your data your way.
  */
+
+use Drupal\scrambler\Controller\ConfigController;
+
+/**
+ * Implements hook_menu().
+ */
+function scrambler_menu() {
+  return ConfigController::getMenuItems();
+}
