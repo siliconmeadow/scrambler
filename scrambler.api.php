@@ -1,19 +1,15 @@
 <?php
 /**
  * @file
- *
- * API model for Scrambler.
+ * Contains the API module functions for the scrambler module.
  */
 
 /**
  * Declaration of hook_scrambler_api().
  *
- * @param \Drupal\scrambler\BLL\API $api
- *   Contains the api class object.
- *
- * @return bool
- *   Returns always TRUE.
+ * @param array $params
+ *   Expects an array with parameters for the scrambling procedures.
  */
-function hook_scrambler_api(&$api) {
-  return TRUE;
+function hook_scrambler_api(&$params) {
+  // Currently nothing is required in this hook.
 }

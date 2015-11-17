@@ -1,8 +1,9 @@
 <?php
 /**
  * @file
- *   Contains field configuration scrambling methods.
+ * Contains field configuration scrambling methods.
  */
+
 require_once 'includes/scrambler_field.entity.inc';
 require_once 'includes/scrambler_field.view.inc';
 
@@ -27,15 +28,12 @@ function scrambler_field_permission() {
 /**
  * Implements hook_scrambler_api().
  */
-function scrambler_field_scrambler_api(&$api) {
-  $scrambler = new \Drupal\scrambler_field\BLL\Scramble($api);
-  $result = $scrambler->execute();
-  if ($result) {
-    drush_log(dt('Successfully scrambled fields.'), $type = 'ok');
-  }
-  else {
-    drush_log(dt('Something went wrong while scrambling fields.'), $type = 'error');
-  }
-
-  return $result;
+function scrambler_field_scrambler_api(&$params) {
+  $params['scrambler_field'] = array(
+    'shuffle_characters' => array(
+      'base_table' => 'node',
+      'fields' => array('title'),
+      'method' => 'shuffle_characters',
+    ),
+  );
 }
