@@ -6,6 +6,8 @@
 
 use Drupal\scrambler\Controller\ConfigController;
 
+require_once 'includes/scrambler.methods.inc';
+
 /**
  * Implements hook_menu().
  */
