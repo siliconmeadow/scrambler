@@ -8,6 +8,22 @@ namespace Drupal\scrambler\BLL;
 
 use Drupal\scrambler\Controller;
 
+class ImplementationObject {
+  public $module;
+  public $base_table;
+  public $fields;
+  public $method;
+
+  /**
+   * Execute the scramble method for the given fields.
+   */
+  public function execute() {
+    // @todo: Apply method for field values.
+    //$test_value = 'abcdefghijklmnopqrstuvwxyz';
+    //$method($test_value);    
+  }
+}
+
 /**
  * API class object.
  */
@@ -50,16 +66,26 @@ class API {
    *   An array with the structure for a particular implementation.
    */
   private function scrambleImplementation($implementation) {
-    foreach($implementation as $item) {
-      $params = array_shift($item);
-      $module = array_key_exists('module', $params) && !empty($params['module']) ? $params['module'] : 'scrambler';
-      $base_table = $params['base_table'];
-      $fields = $params['fields'];
-      $method = '_' . $module . '_method_' . $params['method'];
-      // @todo: Apply method for field values.
-      //$test_value = 'abcdefghijklmnopqrstuvwxyz';
-      //$method($test_value);
+    foreach($implementation as $group) {
+      $this->scrambleImplementationGroup($group);
     }
+  }
+
+  /**
+   * Scramble the implementation group.
+   *
+   * @param array $group
+   *   Contains the implementation group structure array.
+   */
+  private function scrambleImplementationGroup($group) {
+    $params = array_shift($group);
+    $object = new ImplementationObject();
+    $object->module = array_key_exists('module', $params) && !empty($params['module']) ? $params['module'] : 'scrambler';
+    $object->base_table = $params['base_table'];
+    $object->fields = $params['fields'];
+    $object->method = '_' . $object->module . '_method_' . $params['method'];
+    $object->execute();
+    unset($object);
   }
 
   /**
