@@ -1,0 +1,43 @@
+<?php
+/**
+ * @file
+ *
+ * Installation of Scrambler example module.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function scrambler_example_schema() {
+  // Create table scrambler_example for this module.
+  $schema['scrambler_example'] = array(
+    'description' => 'Base table for Scrambler Example.',
+    'fields' => array(
+      'sid' => array(
+        'description' => 'The primary identifier for Scrambler Example.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'title' => array(
+        'description' => 'The title of this example, always treated as non-markup plain text.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'teaser' => array(
+        'description' => 'The title of this example, always treated as non-markup plain text.',
+        'type' => 'varchar',
+        'length' => 120,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+    ),
+    'unique keys' => array(
+      'sid' => array('sid'),
+    ),
+    'primary key' => array('sid'),
+  );
+  return $schema;
+}

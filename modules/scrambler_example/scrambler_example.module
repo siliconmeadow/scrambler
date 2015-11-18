@@ -10,5 +10,20 @@
  * Implements hook_scrambler_api().
  */
 function scrambler_example_scrambler_api(&$api) {
-  return TRUE;
+  // Define your module name.
+  $api['scrambler_example'] = array(
+    // Define a name to declare your custom group.
+    'machine_name_group' => array(
+      // Define base table where these fields are located.
+      'base_table' => '',
+      // Define field names.
+      'fields' => array(''),
+      // Define your scramble method. Ex: swap, scrape, delete, ...
+      'method' => 'swap',
+    ),
+  );
+}
+
+function scrambler_example_scramble_method_mycustom($api) {
+
 }
