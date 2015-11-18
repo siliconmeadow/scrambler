@@ -28,7 +28,7 @@ function scrambler_field_permission() {
 /**
  * Implements hook_scrambler_api().
  */
-function scrambler_field_scrambler_api(&$params) {
+function scrambler_field_scrambler_api() {
   $params['scrambler_field'] = array(
     'shuffle_characters' => array(
       'base_table' => 'node',
@@ -36,4 +36,5 @@ function scrambler_field_scrambler_api(&$params) {
       'method' => 'shuffle_characters',
     ),
   );
+  return $params;
 }

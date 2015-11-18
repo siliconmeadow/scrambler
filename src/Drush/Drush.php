@@ -30,14 +30,9 @@ class Drush {
    */
   public function execute() {
     if ($this->proceed()) {
-      $params = array();
-      foreach (module_implements('scrambler_api') as $module) {
-        $function = $module . '_scrambler_api';
-        $function($params);
-      }
-      foreach ($params as $param) {
-        // @todo: Add execution per given parameter data array.
-      }
+
+      $this->api->scramble();
+
       drush_log(dt('Successfully scrambled fields.'), $type = 'ok');
     }
   }

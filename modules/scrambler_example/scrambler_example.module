@@ -9,9 +9,9 @@
 /**
  * Implements hook_scrambler_api().
  */
-function scrambler_example_scrambler_api(&$api) {
+function scrambler_example_scrambler_api() {
   // Define your module name.
-  $api['scrambler_example'] = array(
+  $params['scrambler_example'] = array(
     // Define a name to declare your custom group.
     'machine_name_group' => array(
       // Define base table where these fields are located.
@@ -22,8 +22,9 @@ function scrambler_example_scrambler_api(&$api) {
       'method' => 'swap',
     ),
   );
+  return $params;
 }
 
-function scrambler_example_scramble_method_mycustom($api) {
+function scrambler_example_scramble_method_mycustom() {
 
 }

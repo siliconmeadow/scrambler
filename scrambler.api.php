@@ -11,5 +11,6 @@
  *   Expects an array with parameters for the scrambling procedures.
  */
 function hook_scrambler_api(&$params) {
+  return $params;
   // Currently nothing is required in this hook.
 }

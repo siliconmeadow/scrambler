@@ -16,15 +16,34 @@ class API {
    * API class constructor.
    */
   public function __construct() {
+    $this->parameters = new Controller\ScrambleController();
   }
 
   /**
    * Start scrambling the database.
+   *
+   * @param string $module_name
+   *  Name of the module that is implementing this.
+   * @param string $group_machine_name
+   *  A group name defined by a user to group elements.
+   * @param string $table_name
+   *  Name of the table that contains the fields.
+   * @param array $fields
+   *  An array containing the fields.
+   * @param string $method
+   *  A string that represents the scramble method.
+   *
+   * @return bool
    */
   public function scramble() {
-    $parameters = new Controller\ScrambleController();
+    foreach ($this->parameters->getImplementations() as $item) {
+      $module_name = key($item);
+      $group_machine_name = key($item[$module_name]);
+      $table_name = key($item[$module_name][$group_machine_name]);
 
-    // @todo: Check for implementations here with $parameters->getImplementations()
+      $fields = $item[$module_name][$group_machine_name][$table_name]['fields'];
+      $method = $item[$module_name][$group_machine_name][$table_name]['method'];
+    }
 
     return true;
   }
