@@ -51,19 +51,6 @@ class API {
 
   /**
    * Start scrambling the database for one particular implementation.
-   *
-   * @param string $module_name
-   *   Name of the module that is implementing this.
-   * @param string $group_machine_name
-   *   A group name defined by a user to group elements.
-   * @param string $table_name
-   *   Name of the table that contains the fields.
-   * @param array $fields
-   *   An array containing the fields.
-   * @param string $method
-   *   A string that represents the scramble method.
-   * @param array $implementation
-   *   An array with the structure for a particular implementation.
    */
   private function scrambleImplementation($implementation) {
     foreach($implementation as $group) {
@@ -80,11 +67,17 @@ class API {
   private function scrambleImplementationGroup($group) {
     $params = array_shift($group);
     $object = new ImplementationObject();
+    // Name of the module that is implementing this.
     $object->module = array_key_exists('module', $params) && !empty($params['module']) ? $params['module'] : 'scrambler';
+    // Name of the table that contains the fields.
     $object->base_table = $params['base_table'];
+    // An array containing the fields.
     $object->fields = $params['fields'];
+    // A string that represents the scramble method.
     $object->method = '_' . $object->module . '_method_' . $params['method'];
+
     $object->execute();
+    // Free up memory.
     unset($object);
   }
 
