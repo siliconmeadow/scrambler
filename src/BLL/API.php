@@ -10,6 +10,7 @@ use Drupal\scrambler\Controller;
 
 class ImplementationObject {
   public $module;
+  public $group;
   public $base_table;
   public $fields;
   public $method;
@@ -19,8 +20,10 @@ class ImplementationObject {
    */
   public function execute() {
     // @todo: Apply method for field values.
-    //$test_value = 'abcdefghijklmnopqrstuvwxyz';
-    //$method($test_value);    
+    // $test_value = 'abcdefghijklmnopqrstuvwxyz';
+    // $method($test_value);
+    // @todo: Temporary printing for Drush. Should be removed and introduced in a logging functionality.
+    print "Group $this->group scramble on $this->base_table (method: $this->method).\n";
   }
 }
 
@@ -65,8 +68,12 @@ class API {
    *   Contains the implementation group structure array.
    */
   private function scrambleImplementationGroup($group) {
-    $params = array_shift($group);
     $object = new ImplementationObject();
+
+    // Name of the group.
+    $object->group = key($group);
+    $params = array_shift($group);
+
     // Name of the module that is implementing this.
     $object->module = array_key_exists('module', $params) && !empty($params['module']) ? $params['module'] : 'scrambler';
     // Name of the table that contains the fields.
