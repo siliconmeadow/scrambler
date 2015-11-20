@@ -31,11 +31,11 @@ function scrambler_field_permission() {
 function scrambler_field_scrambler_api() {
   $params['scrambler_field'] = array(
     'shuffle_characters' => array(
-      'module' => 'scrambler',
       'base_table' => 'node',
       'fields' => array('title'),
-      'method' => 'shuffle_characters',
+      'method' => SCRAMBLER_METHOD_SHUFFLE_CHARACTERS,
     ),
   );
+
   return $params;
 }

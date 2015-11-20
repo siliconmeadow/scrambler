@@ -4,6 +4,11 @@
  * Contains the default scrambler scramble methods.
  */
 
+// Define method constants.
+DEFINE('SCRAMBLER_METHOD_SHUFFLE_CHARACTERS', 'shuffle_characters');
+DEFINE('SCRAMBLER_METHOD_SHUFFLE_WORDS', 'shuffle_words');
+DEFINE('SCRAMBLER_METHOD_EMPTY_VALUE', 'empty_value');
+
 /**
  * Shuffle characters.
  *

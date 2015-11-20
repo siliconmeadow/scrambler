@@ -10,8 +10,7 @@ use Drupal\scrambler\Controller;
 
 class ImplementationObject {
   public $module;
-  public $group;
-  public $base_table;
+  public $table;
   public $fields;
   public $method;
 
@@ -19,9 +18,13 @@ class ImplementationObject {
    * Execute the scramble method for the given fields.
    */
   public function execute() {
+    if (!$this->method) {
+      return FALSE;
+    }
     // @todo: Apply method for field values.
     // $test_value = 'abcdefghijklmnopqrstuvwxyz';
-    // $method($test_value);
+    // $function = $this->method;
+    // $function($test_value);
     // @todo: Temporary printing for Drush. Should be removed and introduced in a logging functionality.
     print "Group $this->group scramble on $this->base_table (method: $this->method).\n";
   }
@@ -54,6 +57,9 @@ class API {
 
   /**
    * Start scrambling the database for one particular implementation.
+   *
+   * @param array $implementation
+   *   Contains the implementation data structure array.
    */
   private function scrambleImplementation($implementation) {
     foreach($implementation as $group) {
@@ -69,38 +75,55 @@ class API {
    */
   private function scrambleImplementationGroup($group) {
     $object = new ImplementationObject();
-
     // Name of the group.
-    $object->group = key($group);
+    $object->module = key($group);
     $params = array_shift($group);
-
-    // Name of the module that is implementing this.
-    $object->module = array_key_exists('module', $params) && !empty($params['module']) ? $params['module'] : 'scrambler';
     // Name of the table that contains the fields.
-    $object->base_table = $params['base_table'];
+    $object->table = $params['base_table'];
     // An array containing the fields.
     $object->fields = $params['fields'];
     // A string that represents the scramble method.
-    $object->method = '_' . $object->module . '_method_' . $params['method'];
-
+    $object->method = $this->getMethodName($object->group, $params);
+    // Execute the method.
     $object->execute();
     // Free up memory.
     unset($object);
   }
 
   /**
-   * Swap the values for the given entities and field name.
+   * Get and validate the method name if exists.
    *
-   * @param \Entity $entity_one
-   *   Contains the first entity.
-   * @param \Entity $entity_two
-   *   Contains the second entity.
-   * @param string $field_name
-   *   Contains the field name of which the value needs to be swapped.
+   * @param string $module
+   *   The current module we are trying to get the method name from.
+   * @param array $params
+   *   All the parameters given by the scrambler_hook.
+   *
+   * @return string|bool
+   *   Returns the method name or FALSE if the method name does not exist.
    */
-  public function swapValues(&$entity_one, &$entity_two, $field_name) {
-    $field_one = $entity_one->{$field_name};
-    $entity_one->{$field_name} = $entity_two->{$field_name};
-    $entity_two->{$field_name} = $field_one;
+  private function getMethodName($module, $params) {
+    // First check if the group method exists.
+    $method = '_' . $module . '_method_' . $params['method'];
+
+    if (function_exists($method)) {
+      return $method;
+    }
+
+    // Second check if the method exists in the scrambler api.
+    $method = '_scrambler_method_' . $params['method'];
+
+    if (function_exists($method)) {
+      return $method;
+    }
+
+    // In case no method name was found, register it in watchdog.
+    watchdog(
+      'scrambler',
+      'Non-existing function %m(&$data) {}.',
+      array('%m' => $method),
+      WATCHDOG_ERROR
+    );
+
+    return FALSE;
   }
 }
