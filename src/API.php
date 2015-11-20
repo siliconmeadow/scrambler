@@ -9,6 +9,7 @@ namespace Drupal\scrambler;
 use Drupal\scrambler\Controller;
 
 class ImplementationObject {
+
   public $module;
   public $table;
   public $fields;
@@ -26,12 +27,13 @@ class ImplementationObject {
     // $function = $this->method;
     // $function($test_value);
     // @todo: Temporary printing for Drush. Should be removed and introduced in a logging functionality.
-    watchdog('scrambler',
+    watchdog(
+      'scrambler',
       "Executing method %me for module %mo on table %t.",
       array(
         '%me' => $this->method,
         '%mo' => $this->module,
-        '%t' => $this->table
+        '%t' => $this->table,
       ),
       WATCHDOG_INFO
     );
@@ -44,6 +46,7 @@ class ImplementationObject {
  * API class object.
  */
 class API {
+
   /**
    * API class constructor.
    */
@@ -72,7 +75,7 @@ class API {
    *   Contains the implementation data structure array.
    */
   private function scrambleImplementation($implementation) {
-    foreach($implementation as $module => $groups) {
+    foreach ($implementation as $module => $groups) {
       $this->scrambleImplementationGroup($module, $groups);
     }
   }
@@ -84,10 +87,10 @@ class API {
    *   Contains the implementation groups structure array.
    */
   private function scrambleImplementationGroup($module, $groups) {
-    foreach($groups as $group) {
+    foreach ($groups as $group) {
       $object = new ImplementationObject();
       $params = $group;
-      // Name of the module
+      // Name of the module.
       $object->module = $module;
       // Name of the table that contains the fields.
       $object->table = $params['base_table'];
@@ -98,18 +101,12 @@ class API {
       // Execute the method.
       if ($object->execute()) {
         watchdog(
-          'scrambler',
-          'Successfull execution of method %m.',
-          array('%m' => $object->method),
-          WATCHDOG_INFO
+            'scrambler', 'Successfull execution of method %m.', array('%m' => $object->method), WATCHDOG_INFO
         );
       }
       else {
         watchdog(
-          'scrambler',
-          'Error while executing function %m.',
-          array('%m' => $method),
-          WATCHDOG_ERROR
+            'scrambler', 'Error while executing function %m.', array('%m' => $method), WATCHDOG_ERROR
         );
       }
       // Free up memory.
@@ -147,10 +144,7 @@ class API {
     $method = '_' . $module . '_method_' . $params['method'];
     // In case no method name was found, register it in watchdog.
     watchdog(
-      'scrambler',
-      'Non-existing function %m(&$data) {}.',
-      array('%m' => $method),
-      WATCHDOG_ERROR
+        'scrambler', 'Non-existing function %m(&$data) {}.', array('%m' => $method), WATCHDOG_ERROR
     );
 
     return FALSE;
