@@ -26,7 +26,17 @@ class ImplementationObject {
     // $function = $this->method;
     // $function($test_value);
     // @todo: Temporary printing for Drush. Should be removed and introduced in a logging functionality.
-    print "Group $this->group scramble on $this->base_table (method: $this->method).\n";
+    watchdog('scrambler',
+      "Executing method %me for module %mo on table %t.",
+      array(
+        '%me' => $this->method,
+        '%mo' => $this->module,
+        '%t' => $this->table
+      ),
+      WATCHDOG_INFO
+    );
+
+    return TRUE;
   }
 }
 
@@ -62,32 +72,49 @@ class API {
    *   Contains the implementation data structure array.
    */
   private function scrambleImplementation($implementation) {
-    foreach($implementation as $group) {
-      $this->scrambleImplementationGroup($group);
+    foreach($implementation as $module => $groups) {
+      $this->scrambleImplementationGroup($module, $groups);
     }
   }
 
   /**
    * Scramble the implementation group.
    *
-   * @param array $group
-   *   Contains the implementation group structure array.
+   * @param array $groups
+   *   Contains the implementation groups structure array.
    */
-  private function scrambleImplementationGroup($group) {
-    $object = new ImplementationObject();
-    // Name of the group.
-    $object->module = key($group);
-    $params = array_shift($group);
-    // Name of the table that contains the fields.
-    $object->table = $params['base_table'];
-    // An array containing the fields.
-    $object->fields = $params['fields'];
-    // A string that represents the scramble method.
-    $object->method = $this->getMethodName($object->group, $params);
-    // Execute the method.
-    $object->execute();
-    // Free up memory.
-    unset($object);
+  private function scrambleImplementationGroup($module, $groups) {
+    foreach($groups as $group) {
+      $object = new ImplementationObject();
+      $params = $group;
+      // Name of the module
+      $object->module = $module;
+      // Name of the table that contains the fields.
+      $object->table = $params['base_table'];
+      // An array containing the fields.
+      $object->fields = $params['fields'];
+      // A string that represents the scramble method.
+      $object->method = $this->getMethodName($object->module, $params);
+      // Execute the method.
+      if ($object->execute()) {
+        watchdog(
+          'scrambler',
+          'Successfull execution of method %m.',
+          array('%m' => $object->method),
+          WATCHDOG_INFO
+        );
+      }
+      else {
+        watchdog(
+          'scrambler',
+          'Error while executing function %m.',
+          array('%m' => $method),
+          WATCHDOG_ERROR
+        );
+      }
+      // Free up memory.
+      unset($object);
+    }
   }
 
   /**
@@ -116,6 +143,8 @@ class API {
       return $method;
     }
 
+    // First check if the group method exists.
+    $method = '_' . $module . '_method_' . $params['method'];
     // In case no method name was found, register it in watchdog.
     watchdog(
       'scrambler',

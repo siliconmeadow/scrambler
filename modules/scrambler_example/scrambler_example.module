@@ -1,9 +1,10 @@
 <?php
 /**
  * @file
- *
- * Scrambler Example
  * A demo module that contains examples.
+ *
+ * Check the includes/scrambler.methods.inc file for more information about
+ * the already available scrambling methods.
  */
 
 /**
@@ -12,19 +13,33 @@
 function scrambler_example_scrambler_api() {
   // Define your module name.
   $params['scrambler_example'] = array(
-    // Define a name to declare your custom group.
-    'machine_name_group' => array(
+    // Give a unique machine name for your scrambling group.
+    'shuffle_words_for_title' => array(
       // Define base table where these fields are located.
-      'base_table' => '',
+      'base_table' => 'scrambler_example',
       // Define field names.
-      'fields' => array(''),
-      // Define your scramble method. Ex: swap, scrape, delete, ...
-      'method' => 'swap',
+      'fields' => array('title'),
+      // Define a scramble method from the scrambler API.
+      'method' => SCRAMBLER_METHOD_SHUFFLE_WORDS,
+    ),
+    // Give a unique machine name for your scrambling group.
+    'custom_method_for_teaser' => array(
+      // Define base table where these fields are located.
+      'base_table' => 'scrambler_example',
+      // Define field names.
+      'fields' => array('teaser'),
+      // Define your custom scrambling method.
+      'method' => 'custom_scrambling',
     ),
   );
+
   return $params;
 }
 
-function scrambler_example_scramble_method_mycustom() {
-
+/**
+ * Custom scrambling method by the scrambler_example module.
+ * @param type $data
+ */
+function _scrambler_example_method_custom_scrambling(&$data) {
+  // Manipulate the $data parameter in which way you think is necessary.
 }
