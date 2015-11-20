@@ -4,7 +4,7 @@
  * API class for the scramble module.
  */
 
-namespace Drupal\scrambler\BLL;
+namespace Drupal\scrambler;
 
 use Drupal\scrambler\Controller;
 

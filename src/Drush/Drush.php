@@ -6,7 +6,7 @@
 
 namespace Drupal\scrambler\Drush;
 
-use Drupal\scrambler\BLL\API;
+use Drupal\scrambler\API;
 
 /**
  * Drush class for the scrambler module.
@@ -14,7 +14,7 @@ use Drupal\scrambler\BLL\API;
 class Drush {
 
   /**
-   * @var \Drupal\scrambler\BLL\API;
+   * @var \Drupal\scrambler\API;
    */
   private $api;
 
