@@ -5,9 +5,9 @@
  */
 
 // Define method constants.
-DEFINE('SCRAMBLER_METHOD_SHUFFLE_CHARACTERS', 'shuffle_characters');
-DEFINE('SCRAMBLER_METHOD_SHUFFLE_WORDS', 'shuffle_words');
-DEFINE('SCRAMBLER_METHOD_EMPTY_VALUE', 'empty_value');
+define('SCRAMBLER_METHOD_SHUFFLE_CHARACTERS', 'shuffle_characters');
+define('SCRAMBLER_METHOD_SHUFFLE_WORDS', 'shuffle_words');
+define('SCRAMBLER_METHOD_EMPTY_VALUE', 'empty_value');
 
 /**
  * Shuffle characters.
@@ -17,7 +17,12 @@ DEFINE('SCRAMBLER_METHOD_EMPTY_VALUE', 'empty_value');
  */
 function _scrambler_method_shuffle_characters(&$data) {
   if (is_string($data)) {
-    $data = str_shuffle($data);
+    // Keep original value in order to validate after shuffling.
+    $original = $data;
+    // Check to see if data has actually become different from the original.
+    while ($original == $data) {
+      $data = str_shuffle($data);
+    }
   }
 }
 
@@ -29,8 +34,11 @@ function _scrambler_method_shuffle_characters(&$data) {
  */
 function _scrambler_method_shuffle_words(&$data) {
   if (is_string($data)) {
-    $words = explode(' ', $data);
-    $data = implode(' ', shuffle($words));
+    $words = $original = explode(' ', $data);
+    while ($original == $words) {
+      shuffle($words);
+    }
+    $data = implode(' ', $words);
   }
 }
 

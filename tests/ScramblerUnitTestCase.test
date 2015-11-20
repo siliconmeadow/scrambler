@@ -1,0 +1,104 @@
+<?php
+/**
+ * @file
+ * Contains the unit tests for the scrambler.
+ */
+
+/**
+ * Scrambler Unit Test case.
+ */
+class ScramblerUnitTestCase extends DrupalUnitTestCase {
+
+  /**
+   * Get info for the ScramblerUnitTestCase.
+   *
+   * @return array
+   *   Returns info array.
+   */
+  public static function getInfo() {
+    return array(
+      'name' => 'Scrambler Unit Tests',
+      'description' => 'Test the scrambler functions.',
+      'group' => 'Scrambler',
+    );
+  }
+
+  /**
+   * Test the shuffle_characters method for a short string.
+   */
+  public function testMethodShuffleCharactersShortString() {
+    // The goal is to make it fail and therefore we test for 10 random strings.
+    $strings = array(
+      $this->randomString(2),
+      $this->randomString(2),
+      $this->randomString(2),
+      $this->randomString(2),
+      $this->randomString(2),
+      $this->randomString(2),
+      $this->randomString(2),
+      $this->randomString(2),
+      $this->randomString(2),
+      $this->randomString(2)
+    );
+    foreach ($strings as $string) {
+      $first = $second = $string;
+      _scrambler_method_shuffle_characters($first);
+      $this->assertNotEqual($first, $second);
+    }
+  }
+
+  /**
+   * Test the shuffle_characters method for a long string.
+   */
+  public function testMethodShuffleCharactersLongString() {
+    $first = $second = $this->randomString(255);
+    _scrambler_method_shuffle_characters($first);
+    $this->assertNotEqual($first, $second);
+  }
+
+  /**
+   * Test the shuffle_words method for a short sentence.
+   */
+  public function testMethodShuffleWordsShortSentence() {
+    // Make it fail and therefore it is tested for 10 random sentences.
+    $sentences = array(
+      $this->randomString(1) . ' ' . $this->randomString(1),
+      $this->randomString(1) . ' ' . $this->randomString(1),
+      $this->randomString(1) . ' ' . $this->randomString(1),
+      $this->randomString(1) . ' ' . $this->randomString(1),
+      $this->randomString(1) . ' ' . $this->randomString(1),
+      $this->randomString(1) . ' ' . $this->randomString(1),
+      $this->randomString(1) . ' ' . $this->randomString(1),
+      $this->randomString(1) . ' ' . $this->randomString(1),
+      $this->randomString(1) . ' ' . $this->randomString(1),
+      $this->randomString(1) . ' ' . $this->randomString(1),
+    );
+    foreach ($sentences as $sentence) {
+      $first = $second = $sentence;
+      _scrambler_method_shuffle_words($first);
+      $this->assertNotEqual($first, $second);
+    }
+  }
+
+  /**
+   * Test the shuffle_words method for a long sentence.
+   */
+  public function testMethodShuffleWorkdsLongSentence() {
+    $sentence = array();
+    for ($i = 0; $i < 100; $i++) {
+      $sentence[] = $this->randomString(rand(3, 15));
+    }
+    $first = $second = implode(' ', $sentence);
+    _scrambler_method_shuffle_words($first);
+    $this->assertNotEqual($first, $second);
+  }
+
+  /**
+   * Test the empty_value method for a normal random string.
+   */
+  public function testMethodEmptyValue() {
+    $data = $this->randomString(10);
+    _scrambler_method_empty_value($data);
+    $this->assertEqual($data, '');
+  }
+}

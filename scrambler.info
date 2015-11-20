@@ -5,3 +5,5 @@ package = Data security
 core = 7.x
 
 dependencies[] = xautoload
+
+files[] = tests/ScramblerUnitTestCase.test
