@@ -57,6 +57,19 @@ class ScramblerUnitTestCase extends DrupalUnitTestCase {
   }
 
   /**
+   * Test the shuffle_characters method for a long string.
+   */
+  public function testMethodShuffleCharactersNonString() {
+    $firstint = $secondint = 100;
+    _scrambler_method_shuffle_characters($firstint);
+    $this->assertEqual($firstint, $secondint);
+
+    $firstobject = $secondobject = new Dummy($this->randomString(2));
+    _scrambler_method_shuffle_characters($firstobject);
+    $this->assertEqual($firstobject, $secondobject);
+  }
+
+  /**
    * Test the shuffle_words method for a short sentence.
    */
   public function testMethodShuffleWordsShortSentence() {
@@ -81,9 +94,22 @@ class ScramblerUnitTestCase extends DrupalUnitTestCase {
   }
 
   /**
+   * Test the shuffle_words method for a long string.
+   */
+  public function testMethodShuffleWordsNonString() {
+    $firstint = $secondint = 100;
+    _scrambler_method_shuffle_words($firstint);
+    $this->assertEqual($firstint, $secondint);
+
+    $firstobject = $secondobject = new Dummy($this->randomString(2));
+    _scrambler_method_shuffle_words($firstobject);
+    $this->assertEqual($firstobject, $secondobject);
+  }
+
+  /**
    * Test the shuffle_words method for a long sentence.
    */
-  public function testMethodShuffleWorkdsLongSentence() {
+  public function testMethodShuffleWordsLongSentence() {
     $sentence = array();
     for ($i = 0; $i < 100; $i++) {
       $sentence[] = $this->randomString(rand(3, 15));
@@ -100,5 +126,33 @@ class ScramblerUnitTestCase extends DrupalUnitTestCase {
     $data = $this->randomString(10);
     _scrambler_method_empty_value($data);
     $this->assertEqual($data, '');
+  }
+
+  /**
+   * Test the empty_value method for a non string.
+   */
+  public function testMethodEmptyValueNonString() {
+    $data = new Dummy($this->randomString(2));
+    _scrambler_method_empty_value($data);
+    $this->assertEqual($data, $data);
+  }
+}
+
+/**
+ * Dummy class used for testing purposes.
+ */
+class Dummy {
+  /**
+   * @var mixed
+   */
+  public $value;
+
+  /**
+   * Class constructor for the dummy object.
+   *
+   * @param mixed $value
+   */
+  function __construct($value) {
+    $this->value = $value;
   }
 }
