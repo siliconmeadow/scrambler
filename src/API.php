@@ -12,6 +12,8 @@ class ImplementationObject {
 
   public $module;
   public $table;
+  public $master_table = NULL;
+  public $id;
   public $fields;
   public $method;
 
@@ -22,11 +24,9 @@ class ImplementationObject {
     if (!$this->method) {
       return FALSE;
     }
-    // @todo: Apply method for field values.
-    // $test_value = 'abcdefghijklmnopqrstuvwxyz';
-    // $function = $this->method;
-    // $function($test_value);
-    // @todo: Temporary printing for Drush. Should be removed and introduced in a logging functionality.
+
+    $this->executeFieldScramble();
+
     watchdog(
       'scrambler',
       "Executing method %me for module %mo on table %t.",
@@ -39,6 +39,80 @@ class ImplementationObject {
     );
 
     return TRUE;
+  }
+
+  /**
+   * Execute the fields scrambling method.
+   */
+  private function executeFieldScramble() {
+    $up_records = $this->applyMethod($this->getTableRecords());
+
+    foreach ($up_records as $record) {
+      foreach($this->fields as $field) {
+        $fields[$field] = $record[$field];
+      }
+
+      $this->updateTable($this->table, $fields, $this->id, $record[$id]);
+
+      if ($this->master_table) {
+        $this->updateTable(
+          $this->master_table, $fields, $this->id, $record[$id]
+        );
+      }
+    }
+  }
+
+  /**
+   * Get the table records.
+   *
+   * @return array
+   *   Returns an array of records.
+   */
+  private function getTableRecords() {
+    return db_select($this->table, 't')->fields('t')->execute();
+  }
+
+  /**
+   * Apply the method on the records.
+   *
+   * @param array $records
+   *   Contains all records.
+   *
+   * @return array
+   *   Returns all records where the methods have been applied.
+   */
+  private function applyMethod($records) {
+    $up_records = array();
+
+    $function = $this->method;
+
+    while ($record = $records->fetchAssoc()) {
+      foreach ($this->fields as $field) {
+        $function($record[$field]);
+        $up_records[] = $record;
+      }
+    }
+
+    return $up_records;
+  }
+
+  /**
+   * Executes update table query.
+   *
+   * @param string $table
+   *   Table name of the table to update.
+   * @param array $fields
+   *   Fields and values to update.
+   * @param string $key
+   *   Field name of the key id to apply conditions.
+   * @param int $value
+   *   Field value of the key id to apply conditions.
+   */
+  private function updateTable($table, $fields, $key, $value) {
+    db_update($table)
+      ->fields($fields)
+      ->condition($key, $value)
+      ->execute();
   }
 }
 
@@ -88,16 +162,7 @@ class API {
    */
   private function scrambleImplementationGroup($module, $groups) {
     foreach ($groups as $group) {
-      $object = new ImplementationObject();
-      $params = $group;
-      // Name of the module.
-      $object->module = $module;
-      // Name of the table that contains the fields.
-      $object->table = $params['base_table'];
-      // An array containing the fields.
-      $object->fields = $params['fields'];
-      // A string that represents the scramble method.
-      $object->method = $this->getMethodName($object->module, $params);
+      $object = $this->prepareScramblerObject($module, $group);
       // Execute the method.
       if ($object->execute()) {
         watchdog(
@@ -112,6 +177,37 @@ class API {
       // Free up memory.
       unset($object);
     }
+  }
+
+  /**
+   * Prepare the scrambler object before actual scrambling.
+   *
+   * @param string $module
+   *   Contains the string of the module.
+   * @param array $group
+   *   Contains the group parameters.
+   *
+   * @return \Drupal\scrambler\ImplementationObject
+   *   Returns an implementation object.
+   */
+  private function prepareScramblerObject($module, $group) {
+    $object = new ImplementationObject();
+    // Name of the module.
+    $object->module = $module;
+    // Name of the table that contains the fields.
+    $object->table = $group['base_table'];
+    // Id of the table of the fields.
+    $object->id = $group['id'];
+    // An array containing the fields.
+    $object->fields = $group['fields'];
+    if (array_key_exists('master_table', $group)) {
+      // Name of the master table that also contains the fields.
+      $object->master_table = $group['master_table'];
+    }
+    // A string that represents the scramble method.
+    $object->method = $this->getMethodName($object->module, $group);
+
+    return $object;
   }
 
   /**
@@ -144,7 +240,7 @@ class API {
     $method = '_' . $module . '_method_' . $params['method'];
     // In case no method name was found, register it in watchdog.
     watchdog(
-        'scrambler', 'Non-existing function %m(&$data) {}.', array('%m' => $method), WATCHDOG_ERROR
+      'scrambler', 'Non-existing function %m(&$data) {}.', array('%m' => $method), WATCHDOG_ERROR
     );
 
     return FALSE;

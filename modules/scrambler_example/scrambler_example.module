@@ -17,6 +17,8 @@ function scrambler_example_scrambler_api() {
     'shuffle_words_for_title' => array(
       // Define base table where these fields are located.
       'base_table' => 'scrambler_example',
+      // Define the id of the base table.
+      'id' => 'sid',
       // Define field names.
       'fields' => array('title'),
       // Define a scramble method from the scrambler API.
@@ -26,6 +28,8 @@ function scrambler_example_scrambler_api() {
     'custom_method_for_teaser' => array(
       // Define base table where these fields are located.
       'base_table' => 'scrambler_example',
+      // Define the id of the base table.
+      'id' => 'sid',
       // Define field names.
       'fields' => array('teaser'),
       // Define your custom scrambling method.
@@ -42,4 +46,5 @@ function scrambler_example_scrambler_api() {
  */
 function _scrambler_example_method_custom_scrambling(&$data) {
   // Manipulate the $data parameter in which way you think is necessary.
+  return str_replace('e', 'x', str_replace('a', 'y', $data));
 }

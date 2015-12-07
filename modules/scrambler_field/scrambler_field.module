@@ -30,8 +30,10 @@ function scrambler_field_permission() {
  */
 function scrambler_field_scrambler_api() {
   $params['scrambler_field'] = array(
-    'shuffle_characters' => array(
-      'base_table' => 'node',
+    'shuffle_node_titles' => array(
+      'base_table' => 'node_revision',
+      'master_table' => 'node',
+      'id' => 'vid',
       'fields' => array('title'),
       'method' => SCRAMBLER_METHOD_SHUFFLE_CHARACTERS,
     ),
