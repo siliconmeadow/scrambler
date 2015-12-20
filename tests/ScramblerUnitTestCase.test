@@ -48,6 +48,16 @@ class ScramblerUnitTestCase extends DrupalUnitTestCase {
   }
 
   /**
+   * Test shuffle characters for a string that contains the same characters.
+   */
+  public function testMethodShuffleCharactersSameLetters() {
+    $letter = $this->randomString(1);
+    $first = $second = $letter . $letter;
+    _scrambler_method_shuffle_characters($first);
+    $this->assertNotEqual($first, $second);
+  }
+
+  /**
    * Test the shuffle_characters method for a long string.
    */
   public function testMethodShuffleCharactersLongString() {

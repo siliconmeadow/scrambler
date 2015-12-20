@@ -17,11 +17,29 @@ define('SCRAMBLER_METHOD_EMPTY_VALUE', 'empty_value');
  */
 function _scrambler_method_shuffle_characters(&$data) {
   if (is_string($data)) {
-    // Keep original value in order to validate after shuffling.
-    $original = $data;
-    // Check to see if data has actually become different from the original.
-    while ($original == $data) {
-      $data = str_shuffle($data);
+    $chars = count_chars($data, 1);
+    // If we have exact the same characters, shuffle will not work.
+    if (count($chars) == 1) {
+      $keys = array_keys($chars);
+      if ($keys[0] == 255) {
+        $data = chr(0) . chr(0);
+      }
+      else {
+        $new_key = $keys[0] + 1;
+        $new_char = chr($new_key);
+        $data = '';
+        for($i = 1; $i < strlen($data); $i++) {
+          $data .= $new_char;
+        }
+      }
+    }
+    else {
+      // Keep original value in order to validate after shuffling.
+      $original = $data;
+      // Check to see if data has actually become different from the original.
+      while ($original == $data) {
+        $data = str_shuffle($data);
+      }
     }
   }
 }
