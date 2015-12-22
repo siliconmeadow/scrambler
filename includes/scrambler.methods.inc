@@ -42,6 +42,13 @@ function _scrambler_method_shuffle_characters(&$data) {
 function _scrambler_method_shuffle_words(&$data) {
   if (is_string($data)) {
     $words = $original = explode(' ', $data);
+    // In case the unique array of words results in only one record.
+    if (count(array_unique($words)) == 1) {
+      // Then replace the first word to be able to shuffle the sentence.
+      $word = $words[0];
+      _scrambler_method_replace_random($word);
+      $words[0] = $word;
+    }
     while ($original == $words) {
       shuffle($words);
     }

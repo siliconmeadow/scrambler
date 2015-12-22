@@ -80,6 +80,16 @@ class ScramblerUnitTestCase extends DrupalUnitTestCase {
   }
 
   /**
+   * Test the shuffle_words method for a short sentence with 2 exact same words.
+   */
+  public function testMethodShuffleWordsSameWords() {
+    $word = $this->randomString(10);
+    $first = $second = $word . ' ' . $word;
+    _scrambler_method_shuffle_words($first);
+    $this->assertNotEqual($first, $second);
+  }
+
+  /**
    * Test the shuffle_words method for a short sentence.
    */
   public function testMethodShuffleWordsShortSentence() {
