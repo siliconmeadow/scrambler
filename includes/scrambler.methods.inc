@@ -20,18 +20,7 @@ function _scrambler_method_shuffle_characters(&$data) {
     $chars = count_chars($data, 1);
     // If we have exact the same characters, shuffle will not work.
     if (count($chars) == 1) {
-      $keys = array_keys($chars);
-      if ($keys[0] == 255) {
-        $data = chr(0) . chr(0);
-      }
-      else {
-        $new_key = $keys[0] + 1;
-        $new_char = chr($new_key);
-        $data = '';
-        for($i = 1; $i < strlen($data); $i++) {
-          $data .= $new_char;
-        }
-      }
+      _scrambler_method_replace_random($data);
     }
     else {
       // Keep original value in order to validate after shuffling.
@@ -70,4 +59,15 @@ function _scrambler_method_empty_value(&$data) {
   if (is_string($data)) {
     $data = '';
   }
+}
+
+/**
+ * Replace with random characters and exact same length.
+ *
+ * @param mixed $data
+ *   Expects any kind of data.
+ */
+function _scrambler_method_replace_random(&$data) {
+  $data_length = strlen($data);
+  $data = substr(uniqid('', true), -$data_length);
 }
