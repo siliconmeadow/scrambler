@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 
-
 namespace Drupal\scrambler_field\BLL;
 
 use Drupal\scrambler_field\Config\Variable;
@@ -13,6 +12,7 @@ use Drupal\scrambler_field\Config\Variable;
  * Description of Scramble class
  */
 class Scramble {
+
   private $api;
 
   /**
@@ -27,7 +27,7 @@ class Scramble {
     $this->api = $api;
     $this->variable = new Variable();
   }
-  
+
   public function execute() {
     if ($this->variable->getTitle() == 1) {
       foreach ($this->getFieldEntities('title') as $entity_type => $entities) {
@@ -86,7 +86,7 @@ class Scramble {
   public function getScramblerFields($all = TRUE) {
     $entities = entity_load('scrambler_field');
     $fields = field_info_fields();
-    $result = array();
+    $result = array(-1 => 'title');
     foreach ($fields as $key => $field) {
       if ($all || !array_key_exists($field['id'], $entities)) {
         $result[$field['id']] = $key;
@@ -110,7 +110,7 @@ class Scramble {
         array_key_exists('type', $field['storage']) &&
         ($field['storage']['type'] == 'field_sql_storage');
   }
-  
+
   /**
    * Load entities by id and swap field values by given field name.
    *
@@ -143,7 +143,7 @@ class Scramble {
     $this->removeFieldValue($entity_one, $field_name);
     entity_save($entity_type, $entity_one);
     entity_save($entity_type, $entity_two);
-  }  
+  }
 
   /**
    * Get all content types.
@@ -163,5 +163,4 @@ class Scramble {
   private function removeFieldValue($entity, $field_name) {
 
   }
-  
 }

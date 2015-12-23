@@ -100,22 +100,29 @@ function scrambler_field_fields_form($form, &$form_state) {
     return array();
   }
 
-  //$scrambler = new \Drupal\scrambler\Controller\ScrambleController();
-  //$methods = $scrambler->getMethods();
-
+  $scrambleController = new \Drupal\scrambler\Controller\ScrambleController();
   $scramble = new \Drupal\scrambler_field\BLL\Scramble();
   $fields = $scramble->getScramblerFields(FALSE);
 
   $form['scrambler_fields'] = array(
     '#type' => 'fieldset',
-    '#title' => t('Sanitize fields'),
+    '#title' => t('Scramble fields'),
   );
 
   if ($fields) {
     $form['scrambler_fields']['scrambler_field'] = array(
       '#type' => 'select',
-      '#title' => t('Select the field you want to add to the sanitize process'),
+      '#title' => t('Field'),
+      '#description' => t('Select the field you want to scramble.'),
       '#options' => $fields,
+      '#required' => TRUE,
+    );
+    $form['scrambler_fields']['scrambler_method'] = array(
+      '#type' => 'radios',
+      '#title' => t('Method'),
+      '#description' => t('Select a scramble method for the selected field.'),
+      '#options' => $scrambleController->getMethods(),
+      '#required' => TRUE,
     );
     $form['scrambler_fields']['submit'] = array(
       '#type' => 'submit',
@@ -144,11 +151,14 @@ function scrambler_field_fields_form_submit($form, &$form_state) {
   $fields = $scramble->getScramblerFields();
   if (array_key_exists($form_state['values']['scrambler_field'], $fields)) {
     drupal_set_message(
-      t('Added %s to scrambler.',
-      array('%s' => $fields[$form_state['values']['scrambler_field']]))
+      t(
+        'Added %s to scrambler.',
+        array('%s' => $fields[$form_state['values']['scrambler_field']])
+      )
     );
     $entity = entity_create('scrambler_field', array());
     $entity->fid = $form_state['values']['scrambler_field'];
+    $entity->scrambler_method = $form_state['values']['scrambler_method'];
     $entity->save();
   }
 }

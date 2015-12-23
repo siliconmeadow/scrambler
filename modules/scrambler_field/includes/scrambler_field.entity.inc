@@ -57,6 +57,11 @@ function scrambler_field_entity_property_info() {
           'description' => t('The field id.'),
           'schema field' => 'fid',
         ),
+        'scrambler_method' => array(
+          'type' => 'string',
+          'label' => t('Method'),
+          'description' => t('Scrambling method'),
+        ),
         'status' => array(
           'type' => 'integer',
           'label' => t('Status'),

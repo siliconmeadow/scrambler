@@ -13,15 +13,15 @@ function scrambler_field_schema() {
     'fields' => array(
       'fid' => array(
         'type' => 'int',
-        'unsigned' => TRUE,
+        'unsigned' => FALSE,
         'not null' => TRUE,
         'description' => 'Fields id.',
       ),
-      'action' => array(
-        'type' => 'int',
+      'scrambler_method' => array(
+        'type' => 'varchar',
+        'length' => 100,
         'not null' => TRUE,
-        'default' => 1,
-        'description' => "Define the action to be executed during scrambling.",
+        'description' => "Define the method to be executed on scrambling.",
       ),
       'status' => array(
         'type' => 'int',

@@ -3,6 +3,7 @@
  * @file
  *
  */
+
 namespace Drupal\scrambler\Controller;
 
 /**
@@ -43,7 +44,11 @@ class ScrambleController extends ConfigController {
 
     foreach ($implementing_modules as $module) {
       $function = $module . '_scrambler_methods';
-      $methods += $function();
+      $module_methods = $function();
+      foreach ($module_methods as &$method) {
+        $method = t($method);
+      }
+      $methods += $module_methods;
     }
 
     return $methods;
