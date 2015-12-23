@@ -3,7 +3,6 @@
  * @file
  * Contains field configuration scrambling methods.
  */
-
 require_once 'includes/scrambler_field.entity.inc';
 require_once 'includes/scrambler_field.view.inc';
 
@@ -29,15 +28,32 @@ function scrambler_field_permission() {
  * Implements hook_scrambler_api().
  */
 function scrambler_field_scrambler_api() {
-  $params['scrambler_field'] = array(
-    'shuffle_node_titles' => array(
-      'base_table' => 'node_revision',
-      'master_table' => 'node',
-      'id' => 'vid',
-      'fields' => array('title'),
-      'method' => SCRAMBLER_METHOD_SHUFFLE_CHARACTERS,
-    ),
-  );
+  $entities = entity_load('scrambler_field');
+  $params = array();
+
+  foreach ($entities as $entity) {
+    if ($entity->fid == -1) {
+      $params['scrambler_field']['title'] = array(
+        'base_table' => 'node_revision',
+        'master_table' => 'node',
+        'id' => 'vid',
+        'fields' => array('title'),
+        'method' => $entity->scrambler_method,
+      );
+    }
+    else {
+      $field = field_info_field_by_id($entity->fid);
+      $current = array_keys($field['storage']['details']['sql']['FIELD_LOAD_CURRENT']);
+      $revision = array_keys($field['storage']['details']['sql']['FIELD_LOAD_REVISION']);
+      $params['scrambler_field'][$field['field_name']] = array(
+        'base_table' => $revision[0],
+        'master_table' => $current[0],
+        'id' => 'revision_id',
+        'fields' => array($field['storage']['details']['sql']['FIELD_LOAD_CURRENT'][$current[0]]['value']),
+        'method' => $entity->scrambler_method,
+      );
+    }
+  }
 
   return $params;
 }

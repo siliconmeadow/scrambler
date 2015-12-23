@@ -41,7 +41,7 @@ function scrambler_field_views_default_views() {
   $handler->display->display_options['style_plugin'] = 'table';
   $handler->display->display_options['style_options']['columns'] = array(
     'fid' => 'fid',
-    'status' => 'status',
+    'scrambler_method' => 'scrambler_method',
   );
   $handler->display->display_options['style_options']['default'] = 'fid';
   $handler->display->display_options['style_options']['info'] = array(
@@ -52,7 +52,7 @@ function scrambler_field_views_default_views() {
       'separator' => '',
       'empty_column' => 0,
     ),
-    'status' => array(
+    'scrambler_method' => array(
       'sortable' => 1,
       'default_sort_order' => 'asc',
       'align' => '',
