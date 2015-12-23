@@ -8,6 +8,19 @@
 define('SCRAMBLER_METHOD_SHUFFLE_CHARACTERS', 'shuffle_characters');
 define('SCRAMBLER_METHOD_SHUFFLE_WORDS', 'shuffle_words');
 define('SCRAMBLER_METHOD_EMPTY_VALUE', 'empty_value');
+define('SCRAMBLER_METHOD_REPLACE_RANDOM', 'replace_random');
+
+/**
+ * Implements hook_scrambler_methods().
+ */
+function scrambler_scrambler_methods() {
+  return array(
+    SCRAMBLER_METHOD_SHUFFLE_CHARACTERS => 'Shuffle characters',
+    SCRAMBLER_METHOD_SHUFFLE_WORDS => 'Shuffle words',
+    SCRAMBLER_METHOD_EMPTY_VALUE => 'Empty values',
+    SCRAMBLER_METHOD_REPLACE_RANDOM => 'Replace with random characters',
+  );
+}
 
 /**
  * Shuffle characters.

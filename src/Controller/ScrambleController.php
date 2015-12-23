@@ -10,6 +10,13 @@ namespace Drupal\scrambler\Controller;
  * @package Drupal\scrambler\Controller
  */
 class ScrambleController extends ConfigController {
+
+  /**
+   * Get all implementations of the scrambler api.
+   *
+   * @return array
+   *   Returns an array of parameters of all implementations.
+   */
   function getImplementations() {
     $implementing_modules = module_implements('scrambler_api');
 
@@ -20,6 +27,25 @@ class ScrambleController extends ConfigController {
       // By the function declaration.
       $parameters[] = $function();
     }
+
     return $parameters;
+  }
+
+  /**
+   * Get all the methods of the scrambler module and other modules.
+   *
+   * @return array
+   *   Returns an array of methods.
+   */
+  function getMethods() {
+    $implementing_modules = module_implements('scrambler_methods');
+    $methods = array();
+
+    foreach ($implementing_modules as $module) {
+      $function = $module . '_scrambler_methods';
+      $methods += $function();
+    }
+
+    return $methods;
   }
 }

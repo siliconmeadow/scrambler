@@ -100,6 +100,9 @@ function scrambler_field_fields_form($form, &$form_state) {
     return array();
   }
 
+  //$scrambler = new \Drupal\scrambler\Controller\ScrambleController();
+  //$methods = $scrambler->getMethods();
+
   $scramble = new \Drupal\scrambler_field\BLL\Scramble();
   $fields = $scramble->getScramblerFields(FALSE);
 

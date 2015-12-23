@@ -41,6 +41,13 @@ function scrambler_example_scrambler_api() {
 }
 
 /**
+ * Implements hook_scrambler_methods().
+ */
+function scrambler_example_scrambler_methods() {
+  return array('custom_scrambling' => 'Custom scrambling');
+}
+
+/**
  * Custom scrambling method by the scrambler_example module.
  * @param type $data
  */
