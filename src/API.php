@@ -46,17 +46,16 @@ class ImplementationObject {
    */
   private function executeFieldScramble() {
     $up_records = $this->applyMethod($this->getTableRecords());
-
     foreach ($up_records as $record) {
       foreach($this->fields as $field) {
         $fields[$field] = $record[$field];
       }
 
-      $this->updateTable($this->table, $fields, $this->id, $record[$id]);
+      $this->updateTable($this->table, $fields, $this->id, $record[$this->id]);
 
       if ($this->master_table) {
         $this->updateTable(
-          $this->master_table, $fields, $this->id, $record[$id]
+          $this->master_table, $fields, $this->id, $record[$this->id]
         );
       }
     }
@@ -139,6 +138,8 @@ class API {
       $this->scrambleImplementation($item);
     }
 
+    drupal_flush_all_caches();
+
     return TRUE;
   }
 
@@ -163,6 +164,7 @@ class API {
   private function scrambleImplementationGroup($module, $groups) {
     foreach ($groups as $group) {
       $object = $this->prepareScramblerObject($module, $group);
+
       // Execute the method.
       if ($object->execute()) {
         watchdog(
