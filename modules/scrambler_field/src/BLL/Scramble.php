@@ -18,7 +18,9 @@ class Scramble {
   public function getScramblerFields($all = TRUE) {
     $entities = entity_load('scrambler_field');
     $fields = field_info_fields();
-    $result = array(-1 => 'title');
+    if (!array_key_exists(-1, $entities)) {
+      $result = array(-1 => 'title');
+    }
     foreach ($fields as $key => $field) {
       if ($all || !array_key_exists($field['id'], $entities)) {
         $result[$field['id']] = $key;
