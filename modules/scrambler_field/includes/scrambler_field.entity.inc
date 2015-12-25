@@ -17,7 +17,7 @@ function scrambler_field_entity_info() {
         'id' => 'fid',
       ),
       'label' => t('scrambler field'),
-      'label callback' => 'scrambler_entity_label_callback',
+      'label callback' => 'scrambler_field_entity_label_callback',
       'module' => 'scrambler',
     ),
   );
@@ -39,9 +39,14 @@ function scrambler_field_entity_label_callback($entity, $type) {
     return FALSE;
   }
 
-  $field = field_info_field_by_id($entity->fid);
+  if ($entity->fid == -1) {
+    return 'title';
+  }
+  else {
+    $field = field_info_field_by_id($entity->fid);
 
-  return empty($field['field_name']) ? t('Unknown field_name') : $field['field_name'];
+    return empty($field['field_name']) ? t('Unknown field_name') : $field['field_name'];
+  }
 }
 
 /**
@@ -52,7 +57,7 @@ function scrambler_field_entity_property_info() {
     'scrambler_field' => array(
       'properties' => array(
         'fid' => array(
-          'type'  => 'integer',
+          'type' => 'integer',
           'label' => t('Field id'),
           'description' => t('The field id.'),
           'schema field' => 'fid',

@@ -18,9 +18,11 @@ class Scramble {
   public function getScramblerFields($all = TRUE) {
     $entities = entity_load('scrambler_field');
     $fields = field_info_fields();
+
     if (!array_key_exists(-1, $entities)) {
       $result = array(-1 => 'title');
     }
+
     foreach ($fields as $key => $field) {
       if ($all || !array_key_exists($field['id'], $entities)) {
         $result[$field['id']] = $key;
@@ -41,8 +43,8 @@ class Scramble {
    */
   private function fieldStoredInSql($field) {
     return array_key_exists('storage', $field) &&
-        array_key_exists('type', $field['storage']) &&
-        ($field['storage']['type'] == 'field_sql_storage');
+      array_key_exists('type', $field['storage']) &&
+      ($field['storage']['type'] == 'field_sql_storage');
   }
 
   /**
