@@ -3,7 +3,6 @@
  * @file
  * Contains the default scrambler scramble methods.
  */
-
 // Define method constants.
 define('SCRAMBLER_METHOD_SHUFFLE_CHARACTERS', 'shuffle_characters');
 define('SCRAMBLER_METHOD_SHUFFLE_WORDS', 'shuffle_words');
@@ -89,5 +88,5 @@ function _scrambler_method_empty_value(&$data) {
  */
 function _scrambler_method_replace_random(&$data) {
   $data_length = strlen($data);
-  $data = substr(uniqid('', true), -$data_length);
+  $data = substr(md5(microtime()), rand(0, 26), $data_length);
 }
