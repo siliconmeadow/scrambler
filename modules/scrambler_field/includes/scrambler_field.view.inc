@@ -37,40 +37,14 @@ function scrambler_field_views_default_views() {
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['exposed_form']['type'] = 'basic';
   $handler->display->display_options['pager']['type'] = 'full';
-  $handler->display->display_options['pager']['options']['items_per_page'] = '20';
+  $handler->display->display_options['pager']['options']['items_per_page'] = '10';
   $handler->display->display_options['style_plugin'] = 'table';
-  $handler->display->display_options['style_options']['columns'] = array(
-    'fid' => 'fid',
-    'scrambler_method' => 'scrambler_method',
-  );
-  $handler->display->display_options['style_options']['default'] = 'fid';
-  $handler->display->display_options['style_options']['info'] = array(
-    'fid' => array(
-      'sortable' => 1,
-      'default_sort_order' => 'asc',
-      'align' => '',
-      'separator' => '',
-      'empty_column' => 0,
-    ),
-    'scrambler_method' => array(
-      'sortable' => 1,
-      'default_sort_order' => 'asc',
-      'align' => '',
-      'separator' => '',
-      'empty_column' => 0,
-    ),
-  );
-  /* No results behavior: Global: Text area */
-  $handler->display->display_options['empty']['area']['id'] = 'area';
-  $handler->display->display_options['empty']['area']['table'] = 'views';
-  $handler->display->display_options['empty']['area']['field'] = 'area';
-  $handler->display->display_options['empty']['area']['empty'] = TRUE;
-  $handler->display->display_options['empty']['area']['content'] = 'No fields have been defined yet.';
-  $handler->display->display_options['empty']['area']['format'] = 'filtered_html';
   /* Field: Bulk operations: Scrambler field */
   $handler->display->display_options['fields']['views_bulk_operations']['id'] = 'views_bulk_operations';
   $handler->display->display_options['fields']['views_bulk_operations']['table'] = 'scrambler_field';
   $handler->display->display_options['fields']['views_bulk_operations']['field'] = 'views_bulk_operations';
+  $handler->display->display_options['fields']['views_bulk_operations']['label'] = '';
+  $handler->display->display_options['fields']['views_bulk_operations']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['display_type'] = '0';
   $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['enable_select_all_pages'] = 1;
   $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['row_clickable'] = 1;
@@ -89,34 +63,9 @@ function scrambler_field_views_default_views() {
   $handler->display->display_options['fields']['field_name']['id'] = 'field_name';
   $handler->display->display_options['fields']['field_name']['table'] = 'scrambler_field';
   $handler->display->display_options['fields']['field_name']['field'] = 'field_name';
-  $handler->display->display_options['fields']['field_name']['label'] = 'Veldnaam';
 
   /* Display: Block */
   $handler = $view->new_display('block', 'Block', 'block');
-
-  $translatables['scrambler_fields_administrative_view'] = array(
-    t('Master'),
-    t('Scrambler fields administrative view'),
-    t('more'),
-    t('Apply'),
-    t('Reset'),
-    t('Sort by'),
-    t('Asc'),
-    t('Desc'),
-    t('Items per page'),
-    t('- All -'),
-    t('Offset'),
-    t('« first'),
-    t('‹ previous'),
-    t('next ›'),
-    t('last »'),
-    t('No fields have been defined yet.'),
-    t('Scrambler field'),
-    t('- Choose an operation -'),
-    t('Veldnaam'),
-    t('.'),
-    t('Block'),
-  );
 
   $views[$view->name] = $view;
   return $views;
@@ -124,7 +73,7 @@ function scrambler_field_views_default_views() {
 
 /**
  * Render the field name through the views_view_table theme.
- * 
+ *
  * @param array $vars
  *   Contains all the variable information of the views_view_table theme.
  */

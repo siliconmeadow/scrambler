@@ -68,7 +68,6 @@ function scrambler_field_fields_form($form, &$form_state) {
   $scrambleController = new \Drupal\scrambler\Controller\ScrambleController();
   $scramble = new \Drupal\scrambler_field\BLL\Scramble();
   $fields = $scramble->getScramblerFields(FALSE);
-
   $form['scrambler_fields'] = array(
     '#type' => 'fieldset',
     '#title' => t('Scramble fields'),

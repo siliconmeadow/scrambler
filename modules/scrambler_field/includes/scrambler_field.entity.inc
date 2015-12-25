@@ -19,7 +19,8 @@ function scrambler_field_entity_info() {
       'label' => t('scrambler field'),
       'label callback' => 'scrambler_field_entity_label_callback',
       'module' => 'scrambler',
-    ),
+      'views controller class' => 'EntityDefaultViewsController',
+    )
   );
 }
 
