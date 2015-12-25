@@ -28,10 +28,12 @@ function scrambler_field_permission() {
  * Implements hook_scrambler_api().
  */
 function scrambler_field_scrambler_api() {
+  $scrambler = new \Drupal\scrambler_field\BLL\Scramble();
   $entities = entity_load('scrambler_field');
   $params = array();
 
   foreach ($entities as $entity) {
+    // If the field is the Drupal title field.
     if ($entity->fid == -1) {
       $params['scrambler_field']['title'] = array(
         'base_table' => 'node_revision',
@@ -41,17 +43,18 @@ function scrambler_field_scrambler_api() {
         'method' => $entity->scrambler_method,
       );
     }
+    // Else if the field is of the kind field entity.
     else {
-      $field = field_info_field_by_id($entity->fid);
-      $current = array_keys($field['storage']['details']['sql']['FIELD_LOAD_CURRENT']);
-      $revision = array_keys($field['storage']['details']['sql']['FIELD_LOAD_REVISION']);
-      $params['scrambler_field'][$field['field_name']] = array(
-        'base_table' => $revision[0],
-        'master_table' => $current[0],
-        'id' => 'revision_id',
-        'fields' => array($field['storage']['details']['sql']['FIELD_LOAD_CURRENT'][$current[0]]['value']),
-        'method' => $entity->scrambler_method,
-      );
+      $data = $scrambler->getScrambleFieldData($entity->fid);
+      if ($data) {
+        $params['scrambler_field'][$data['field_name']] = array(
+          'base_table' => $data['base_table'],
+          'master_table' => $data['master_table'],
+          'id' => $data['id'],
+          'fields' => $data['fields'],
+          'method' => $entity->scrambler_method,
+        );
+      }
     }
   }
 

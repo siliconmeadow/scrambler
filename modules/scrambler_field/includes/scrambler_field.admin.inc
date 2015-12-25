@@ -47,41 +47,6 @@ function scrambler_field_settings_form($form, &$form_state) {
 }
 
 /**
- * Generates the general settings form.
- *
- * @param array $form
- *   The form object to be generated.
- * @param array $form_state
- *   The form state of the form object to be generated.
- *
- * @return array
- *   Returns the generated form object.
- */
-function scrambler_field_general_settings_form($form, &$form_state) {
-  $variable = new \Drupal\scrambler_field\Config\Variable();
-  $scrambler = new \Drupal\scrambler_field\BLL\Scramble();
-
-  $form['scrambler_general'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('General settings'),
-    '#tree' => TRUE,
-  );
-  $form['scrambler_general']['title'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Scramble title'),
-    '#default_value' => $variable->getTitle(),
-  );
-  $form['scrambler_general']['content_types'] = array(
-    '#type' => 'checkboxes',
-    '#title' => t('Scramble content types'),
-    '#options' => $scrambler->getContentTypes(),
-    '#default_value' => $variable->getContentTypes(),
-  );
-
-  return system_settings_form($form);
-}
-
-/**
  * Contains the scrambler_fields_form structure.
  *
  * @param array $form

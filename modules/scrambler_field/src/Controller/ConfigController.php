@@ -29,17 +29,6 @@ class ConfigController {
         'file' => 'includes/scrambler_field.admin.inc',
         'file path' => drupal_get_path('module', 'scrambler_field'),
       ),
-      'admin/config/development/scrambler/general' => array(
-        'title' => 'Configure General Scrambler',
-        'description' => 'Configure general settings for scrambling.',
-        'page callback' => 'drupal_get_form',
-        'page arguments' => array('scrambler_field_general_settings_form'),
-        'weight' => -99,
-        'type' => MENU_LOCAL_TASK,
-        'access arguments' => array('administer scrambler'),
-        'file' => 'includes/scrambler_field.admin.inc',
-        'file path' => drupal_get_path('module', 'scrambler_field'),
-      ),
     );
   }
 }

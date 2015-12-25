@@ -14,10 +14,6 @@ namespace Drupal\scrambler_field\Security;
 class Permission {
   public function getPermission() {
     return array(
-      'administer scrambler' => array(
-        'title' => t('Administer scrambler'),
-        'description' => t('Configure the way content needs to be sanitized.'),
-      ),
       'administer scrambler fields' => array(
         'title' => t('Administer scrambler fields'),
         'description' => t('Configure the fields to be sanitized.'),

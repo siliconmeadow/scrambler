@@ -1,82 +1,14 @@
 <?php
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * Contains all Fields scramble functionalities.
  */
 
 namespace Drupal\scrambler_field\BLL;
-
-use Drupal\scrambler_field\Config\Variable;
 
 /**
  * Description of Scramble class
  */
 class Scramble {
-
-  private $api;
-
-  /**
-   * @var \Drupal\scrambler\Config\Variable
-   */
-  private $variable;
-
-  /**
-   * API class constructor.
-   */
-  public function __construct($api = NULL) {
-    $this->api = $api;
-    $this->variable = new Variable();
-  }
-
-  public function execute() {
-    if ($this->variable->getTitle() == 1) {
-      foreach ($this->getFieldEntities('title') as $entity_type => $entities) {
-        $ids = $shuffled = array_keys($entities);
-        shuffle($shuffled);
-        foreach ($ids as $key => $id) {
-          $this->swapFields($entity_type, $id, $shuffled, 'title');
-        }
-      }
-    }
-    // @todo: Instead of shuffling, swap step-by-step and check for other DIFFERENT values.
-    foreach ($this->getScramblerFields() as $field_name) {
-      $field = field_info_field($field_name);
-      if (field_has_data($field) && $this->fieldStoredInSql($field)) {
-        $field_entities = $this->getFieldEntities($field_name);
-        foreach ($field_entities as $entity_type => $entities) {
-          $ids = $shuffled = array_keys($entities);
-          shuffle($shuffled);
-          foreach ($ids as $key => $id) {
-            $this->swapFields($entity_type, $id, $shuffled, $field_name);
-          }
-        }
-      }
-    }
-    // @todo: We are expecting the scramble to always return true, for now.
-    return TRUE;
-  }
-
-  /**
-   * Get the field entities by field name.
-   *
-   * @param string $field_name
-   *   Contains the field name.
-   *
-   * @return array
-   *   Returns an array of entities.s
-   */
-  private function getFieldEntities($field) {
-    $query = new \EntityFieldQuery();
-    if ($field != 'title') {
-// TODO Check reason for non working fieldcondition query
-//      $query->fieldCondition($field);
-    }
-    $query->entityCondition('entity_type', 'node');
-    $query->entityCondition('bundle', array_keys(array_filter($this->variable->getContentTypes())), 'IN');
-
-    return $query->execute();
-  }
-
   /**
    * Get a simple fields array.
    *
@@ -112,40 +44,6 @@ class Scramble {
   }
 
   /**
-   * Load entities by id and swap field values by given field name.
-   *
-   * @param string $entity_type
-   *   Contains the current entity type.
-   * @param int $id_one
-   *   Contains the id of the first entity.
-   * @param array $shuffled
-   *   Contains an array of shuffled ids.
-   * @param string $field_name
-   *   Contains the field name.
-   */
-  private function swapFields($entity_type, $id_one, $shuffled, $field_name) {
-    $shuffle_key = 0;
-    $doContinue = TRUE;
-    $entity_one = entity_load_single($entity_type, $id_one);
-    $entity_two = entity_load_single($entity_type, $shuffled[$shuffle_key]);
-    while ($doContinue && ($entity_one->{$field_name} == $entity_two->{$field_name})) {
-      $shuffle_key += 1;
-      $doContinue = isset($shuffled[$shuffle_key]);
-      if ($doContinue) {
-        $entity_two = entity_load_single($entity_type, $shuffled[$shuffle_key]);
-      }
-    }
-    if ($entity_one->{$field_name} == $entity_two->{$field_name}) {
-      // TODO - Create next scrambling method in case of exact same value.
-    }
-    unset($shuffle_key[$shuffle_key]);
-    $this->api->swapValues($entity_one, $entity_two, $field_name);
-    $this->removeFieldValue($entity_one, $field_name);
-    entity_save($entity_type, $entity_one);
-    entity_save($entity_type, $entity_two);
-  }
-
-  /**
    * Get all content types.
    *
    * @return array
@@ -160,7 +58,58 @@ class Scramble {
     return $options;
   }
 
-  private function removeFieldValue($entity, $field_name) {
+  /**
+   * Get the scramble data by field id.
+   *
+   * @param int $fid
+   *   The field id.
+   *
+   * @return bool|array
+   *   Returns an array with scramble data or FALSE on failure.
+   */
+  public function getScrambleFieldData($fid) {
+    $field = field_info_field_by_id($fid);
+    if (!isset($field) || !$this->fieldStoredInSql($field) || !field_has_data($field)) {
+      return FALSE;
+    }
+    else {
+      $data = array();
+      $data['master_table'] = $this->getFieldTableName(
+        $field, FIELD_LOAD_REVISION
+      );
+      $data['base_table'] = $this->getFieldTableName(
+        $field, FIELD_LOAD_CURRENT
+      );
+      $data['field_name'] = $field['field_name'];
+      $data['id'] = 'revision_id';
+      $data['fields'] = array($field['storage']['details']['sql'][FIELD_LOAD_CURRENT][$data['base_table']]['value']);
 
+      if (!isset($data['base_table'])) {
+        return FALSE;
+      }
+
+      return $data;
+    }
+  }
+
+  /**
+   * Get the table name by field and type.
+   *
+   * @param array $field
+   *   Expects the field entity object.
+   * @param string $type
+   *   Expects the FIELD_LOAD constant values.
+   *
+   * @return NULL|string
+   *   Returns the table name, on failure returns NULL.
+   */
+  private function getFieldTableName($field, $type) {
+    if (isset($field['storage']['details']['sql'][$type]) &&
+        is_array($field['storage']['details']['sql'][$type])) {
+      $arr_table = array_keys($field['storage']['details']['sql'][$type]);
+      return $arr_table[0];
+    }
+
+    return NULL;
   }
 }
