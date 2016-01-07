@@ -8,6 +8,8 @@ define('SCRAMBLER_METHOD_SHUFFLE_CHARACTERS', 'shuffle_characters');
 define('SCRAMBLER_METHOD_SHUFFLE_WORDS', 'shuffle_words');
 define('SCRAMBLER_METHOD_EMPTY_VALUE', 'empty_value');
 define('SCRAMBLER_METHOD_REPLACE_RANDOM', 'replace_random');
+define('SCRAMBLER_METHOD_SCRAMBLE_EMAIL', 'scramble_email');
+define('SCRAMBLER_METHOD_SCRAMBLE_URL', 'scramble_url');
 
 /**
  * Implements hook_scrambler_methods().
@@ -18,6 +20,8 @@ function scrambler_scrambler_methods() {
     SCRAMBLER_METHOD_SHUFFLE_WORDS => 'Shuffle words',
     SCRAMBLER_METHOD_EMPTY_VALUE => 'Empty values',
     SCRAMBLER_METHOD_REPLACE_RANDOM => 'Replace with random characters',
+    SCRAMBLER_METHOD_SCRAMBLE_EMAIL => 'Scramble an e-mail',
+    SCRAMBLER_METHOD_SCRAMBLE_URL => 'Scramble an url',
   );
 }
 
@@ -89,4 +93,92 @@ function _scrambler_method_empty_value(&$data) {
 function _scrambler_method_replace_random(&$data) {
   $data_length = strlen($data);
   $data = substr(md5(microtime()), rand(0, 26), $data_length);
+}
+
+/**
+ * Scramble the characters of an e-mail and maintain the same e-mail length.
+ *
+ * @param mixed $data
+ *   Expects an e-mail.
+ */
+function _scrambler_method_scramble_email(&$data) {
+  if (valid_email_address($data)) {
+    $arr_data = explode('@', $data);
+    _scrambler_method_shuffle_characters($arr_data[0]);
+    $arr_dot_data = explode('.', $arr_data[1]);
+    _scrambler_method_shuffle_characters($arr_dot_data[0]);
+    _scrambler_method_shuffle_characters($arr_dot_data[1]);
+    $arr_data[1] = implode('.', $arr_dot_data);
+    $data = implode('@', $arr_data);
+  }
+  else {
+    _scrambler_method_shuffle_characters($data);
+  }
+}
+
+/**
+ * Scramble the characters of an url and retain the same url length.
+ *
+ * @param mixed $data
+ *   Expects an url.
+ */
+function _scrambler_method_scramble_url(&$data) {
+  if (valid_url($data)) {
+    $parsed = parse_url($data);
+    if (isset($parsed['host'])) {
+      _scrambler_method_shuffle_characters($parsed['host']);
+    }
+    if (isset($parsed['path'])) {
+      _scrambler_method_shuffle_characters($parsed['path']);
+    }
+    if (isset($parsed['query'])) {
+      _scrambler_method_shuffle_characters($parsed['query']);
+    }
+    $data = _scrambler_method_helper_unparse_url($parsed);
+  }
+  else {
+    _scrambler_method_shuffle_characters($data);
+  }
+}
+
+/**
+ * Helper function to unparse a parsed url.
+ *
+ * @param array $parsed
+ *   Parsed url array.
+ * @return string
+ *   Returns an unparsed url.
+ */
+function _scrambler_method_helper_unparse_url(array $parsed) {
+  $pass = _scrambler_method_helper_parsed_value($parsed, 'pass');
+  $userinfo = _scrambler_method_helper_parsed_value($parsed, 'user') .
+    (strlen($pass) ? ":$pass" : '');
+  $port = _scrambler_method_helper_parsed_value($parsed, 'port');
+  $scheme = _scrambler_method_helper_parsed_value($parsed, 'scheme');
+  $query = _scrambler_method_helper_parsed_value($parsed, 'query');
+  $fragment = _scrambler_method_helper_parsed_value($parsed, 'fragment');
+  $authority = (strlen($userinfo) ? "$userinfo@" : '') .
+    _scrambler_method_helper_parsed_value($parsed, 'host') .
+    ($port ? ":$port" : '');
+
+  return (strlen($scheme) ? "$scheme:" : '') .
+    (strlen($authority) ? "//$authority" : '') .
+    _scrambler_method_helper_parsed_value($parsed, 'path') .
+    (strlen($query) ? "?$query" : '') .
+    (strlen($fragment) ? "#$fragment" : '');
+}
+
+/**
+ * Returns the key if exists else it returns NULL.
+ *
+ * @param array $parsed
+ *   Contains an array of parsed values of an url.
+ * @param string $key
+ *   Contains the key to search for in the array.
+ *
+ * @return string|NULL
+ *   Returns the key value of the array or NULL if the key not exists.
+ */
+function _scrambler_method_helper_parsed_value($parsed, $key) {
+  return isset($parsed[$key]) ? $parsed[$key] : null;
 }

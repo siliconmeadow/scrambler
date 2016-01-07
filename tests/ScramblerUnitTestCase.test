@@ -152,9 +152,50 @@ class ScramblerUnitTestCase extends DrupalUnitTestCase {
    * Test the empty_value method for a non string.
    */
   public function testMethodEmptyValueNonString() {
-    $data = new Dummy($this->randomString(2));
-    _scrambler_method_empty_value($data);
-    $this->assertEqual($data, $data);
+    $first = $second = new Dummy($this->randomString(2));
+    _scrambler_method_empty_value($first);
+    $this->assertEqual($first, $second);
+  }
+
+  /**
+   * Test the scramble_email method for different an e-mail.
+   */
+  public function testMethodScrambleEmail() {
+    $first = $second = $this->randomName(10) . '@' .
+      $this->randomName(4) . '.' . $this->randomName(2);
+    _scrambler_method_scramble_email($first);
+    $this->assertNotEqual($first, $second);
+    $this->assertTrue(
+      valid_email_address($first),
+      'E-mail invalid after scramble'
+    );
+  }
+
+  /**
+   * Test the scramble_email method for a non e-mail.
+   */
+  public function testMethodScrambleNonEmail() {
+    $first = $second = new Dummy($this->randomString(2));
+    $this->assertEqual($first, $second);
+  }
+
+  /**
+   * Test the scramble_url method for a range of url's.
+   */
+  public function testMethodScrambleUrl() {
+    $urls = array(
+      $this->randomName(),
+      'http://' . $this->randomName(3) .'.'.$this->randomName().'.' . $this->randomName(3) . '/',
+      'http://u:p@foo:1/path/path?q#frag',
+      'http://u:p@foo:1/path/path?#',
+      'ssh://root@host',
+      '://:@:1/?#'
+    );
+    foreach ($urls as $url) {
+      $original = $url;
+      _scrambler_method_scramble_url($url);
+      $this->assertNotEqual($original, $url);
+    }
   }
 }
 
