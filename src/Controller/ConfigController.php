@@ -15,7 +15,7 @@ class ConfigController {
    * Main router entry.
    * @return array
    */
-  function getMenuItems() {
+  public function getMenuItems() {
     return array(
       'admin/config/development/scrambler' => array(
         'title' => t('Configure Scrambler'),

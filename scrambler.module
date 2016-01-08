@@ -12,6 +12,5 @@ require_once 'includes/scrambler.methods.inc';
  * Implements hook_menu().
  */
 function scrambler_menu() {
-  $menu_items = ConfigController::getMenuItems();
-  return $menu_items;
+  return ConfigController::getMenuItems();
 }
