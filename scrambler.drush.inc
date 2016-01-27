@@ -21,6 +21,6 @@ function scrambler_drush_command() {
  * Executes the scramble data command.
  */
 function drush_scrambler_scramble() {
-  $drush = new \Drupal\scrambler\Drush\Drush;
+  $drush = new \Drupal\scrambler\Drush\Drush();
   $drush->execute();
 }
