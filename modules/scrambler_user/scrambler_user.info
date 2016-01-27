@@ -1,0 +1,7 @@
+name = Users Scrambler
+description = Contains functions to scramble user data using the scrambler API.
+configure = admin/config/development/scrambler/user
+package = Data security
+core = 7.x
+
+dependencies[] = scrambler
