@@ -47,7 +47,7 @@ class ImplementationObject {
   private function executeFieldScramble() {
     $up_records = $this->applyMethod($this->getTableRecords());
     foreach ($up_records as $record) {
-      foreach($this->fields as $field) {
+      foreach ($this->fields as $field) {
         $fields[$field] = $record[$field];
       }
 
