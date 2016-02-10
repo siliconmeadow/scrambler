@@ -16,6 +16,9 @@ class Scramble {
   /**
    * Get a simple fields array.
    *
+   * @param bool $all
+   *   Check if we need to get all fields.
+   *
    * @return array
    *   Returns an array of fields.
    */
