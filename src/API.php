@@ -8,11 +8,16 @@ namespace Drupal\scrambler;
 
 use Drupal\scrambler\Controller;
 
+/**
+ * Class ImplementationObject.
+ *
+ * @package Drupal\scrambler
+ */
 class ImplementationObject {
 
   public $module;
   public $table;
-  public $master_table = NULL;
+  public $masterTable = NULL;
   public $id;
   public $fields;
   public $method;
@@ -53,9 +58,9 @@ class ImplementationObject {
 
       $this->updateTable($this->table, $fields, $this->id, $record[$this->id]);
 
-      if ($this->master_table) {
+      if ($this->masterTable) {
         $this->updateTable(
-          $this->master_table, $fields, $this->id, $record[$this->id]
+          $this->masterTable, $fields, $this->id, $record[$this->id]
         );
       }
     }
@@ -168,12 +173,12 @@ class API {
       // Execute the method.
       if ($object->execute()) {
         watchdog(
-            'scrambler', 'Successfull execution of method %m.', array('%m' => $object->method), WATCHDOG_INFO
+            'scrambler', 'Successful execution of method %m.', array('%m' => $object->method), WATCHDOG_INFO
         );
       }
       else {
         watchdog(
-            'scrambler', 'Error while executing function %m.', array('%m' => $method), WATCHDOG_ERROR
+            'scrambler', 'Error while executing function %m.', array('%m' => $object->method), WATCHDOG_ERROR
         );
       }
       // Free up memory.
@@ -204,7 +209,7 @@ class API {
     $object->fields = $group['fields'];
     if (array_key_exists('master_table', $group)) {
       // Name of the master table that also contains the fields.
-      $object->master_table = $group['master_table'];
+      $object->masterTable = $group['master_table'];
     }
     // A string that represents the scramble method.
     $object->method = $this->getMethodName($object->module, $group);
@@ -247,4 +252,5 @@ class API {
 
     return FALSE;
   }
+
 }
