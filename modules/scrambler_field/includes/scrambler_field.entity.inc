@@ -57,24 +57,6 @@ function scrambler_field_entity_property_info() {
   return array(
     'scrambler_field' => array(
       'properties' => array(
-        'fid' => array(
-          'type' => 'integer',
-          'label' => t('Field id'),
-          'description' => t('The field id.'),
-          'schema field' => 'fid',
-        ),
-        'scrambler_method' => array(
-          'type' => 'text',
-          'label' => t('Method'),
-          'description' => t('Scrambling method'),
-          'schema field' => 'scrambler_method',
-        ),
-        'status' => array(
-          'type' => 'integer',
-          'label' => t('Status'),
-          'description' => t('Enabled or disabled'),
-          'schema field' => 'status',
-        ),
         'field_name' => array(
           'type' => 'text',
           'label' => t('Field name'),
