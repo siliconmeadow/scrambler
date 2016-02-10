@@ -1,7 +1,6 @@
 <?php
 /**
  * @file
- *
  * Administration page for Scrambler.
  */
 
