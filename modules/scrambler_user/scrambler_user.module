@@ -9,7 +9,7 @@
  */
 function scrambler_user_menu() {
   return array(
-    'admin/config/development/scrambler/user' =>  array(
+    'admin/config/development/scrambler/user' => array(
       'title' => 'Configure Users Scrambler',
       'description' => 'Configure which user data need to be scrambled.',
       'page callback' => 'drupal_get_form',
@@ -19,6 +19,6 @@ function scrambler_user_menu() {
       'access arguments' => array('administer scrambler users'),
       'file' => 'includes/scrambler_user.admin.inc',
       'file path' => drupal_get_path('module', 'scrambler_user'),
-  ),
+    ),
   );
 }
