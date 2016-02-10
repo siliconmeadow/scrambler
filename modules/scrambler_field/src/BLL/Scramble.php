@@ -116,7 +116,10 @@ class Scramble {
    *   Returns the table name, on failure returns NULL.
    */
   private function getFieldTableName($field, $type) {
-    if (isset($field['storage']['details']['sql'][$type]) &&
+    if (isset($field['storage']) &&
+        isset($field['storage']['details']) &&
+        isset($field['storage']['details']['sql']) &&
+        isset($field['storage']['details']['sql'][$type]) &&
         is_array($field['storage']['details']['sql'][$type])) {
       $arr_table = array_keys($field['storage']['details']['sql'][$type]);
       return $arr_table[0];
