@@ -1,6 +1,7 @@
 <?php
 /**
  * @file
+ * Configuration controller.
  */
 
 namespace Drupal\scrambler\Controller;

@@ -1,13 +1,14 @@
 <?php
 /**
  * @file
- *
+ * Scramble Controller.
  */
 
 namespace Drupal\scrambler\Controller;
 
 /**
- * Class ScrambleController
+ * Class ScrambleController.
+ *
  * @package Drupal\scrambler\Controller
  */
 class ScrambleController extends ConfigController {
@@ -18,7 +19,7 @@ class ScrambleController extends ConfigController {
    * @return array
    *   Returns an array of parameters of all implementations.
    */
-  function getImplementations() {
+  public function getImplementations() {
     $implementing_modules = module_implements('scrambler_api');
 
     foreach ($implementing_modules as $module) {
@@ -38,7 +39,7 @@ class ScrambleController extends ConfigController {
    * @return array
    *   Returns an array of methods.
    */
-  function getMethods() {
+  public function getMethods() {
     $implementing_modules = module_implements('scrambler_methods');
     $methods = array();
 
