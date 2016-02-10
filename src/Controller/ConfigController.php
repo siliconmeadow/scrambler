@@ -6,19 +6,18 @@
 namespace Drupal\scrambler\Controller;
 
 /**
- * Class ConfigController
+ * Class ConfigController.
+ *
  * @package Drupal\scrambler\Controller
- * @inheritdoc
  */
 class ConfigController {
   /**
    * Main router entry.
-   * @return array
    */
   public static function getMenuItems() {
     return array(
       'admin/config/development/scrambler' => array(
-        'title' => t('Configure Scrambler'),
+        'title' => t('Scrambler'),
         'description' => t('Configure Scrambling.'),
         'page callback' => 'scrambler_administration_page',
         'type' => MENU_NORMAL_ITEM,
@@ -38,4 +37,5 @@ class ConfigController {
       ),
     );
   }
+
 }
