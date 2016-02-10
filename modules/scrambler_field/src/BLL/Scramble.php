@@ -1,12 +1,16 @@
 <?php
 /**
+ * @file
  * Contains all Fields scramble functionalities.
  */
 
 namespace Drupal\scrambler_field\BLL;
 
+
 /**
- * Description of Scramble class
+ * Class Scramble.
+ *
+ * @package Drupal\scrambler_field\BLL
  */
 class Scramble {
   /**
