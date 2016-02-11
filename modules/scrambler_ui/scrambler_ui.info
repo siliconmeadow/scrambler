@@ -1,0 +1,8 @@
+name = Scrambler UI
+description = Contains web interface for Scrambler.
+configure = admin/config/development/scrambler
+package = Data security
+core = 7.x
+
+dependencies[] = scrambler
+dependencies[] = xautoload
