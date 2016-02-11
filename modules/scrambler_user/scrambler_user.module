@@ -19,6 +19,45 @@ function scrambler_user_menu() {
       'access arguments' => array('administer scrambler users'),
       'file' => 'includes/scrambler_user.admin.inc',
       'file path' => drupal_get_path('module', 'scrambler_user'),
-  ),
+    ),
   );
+}
+
+/**
+ * Implements hook_scrambler_api().
+ */
+function scrambler_user_scrambler_api() {
+  $scrambler_user = variable_get('scrambler_user');
+  $user_fields = array_filter($scrambler_user);
+  $params = array();
+
+  if (count($user_fields) > 0) {
+    $params['scrambler_user'] = array();
+    if (isset($user_fields['username']) && ($user_fields['username'] == 1)) { 
+      $params['scrambler_user']['title'] = array(
+        'base_table' => 'users',
+        'id' => 'uid',
+        'fields' => array('name'),
+        'method' => SCRAMBLER_METHOD_SCRAMBLE_EMAIL,
+      );
+    }
+    if (isset($user_fields['email']) && ($user_fields['email'] == 1)) { 
+      $params['scrambler_user']['email'] = array(
+        'base_table' => 'users',
+        'id' => 'uid',
+        'fields' => array('mail'),
+        'method' => SCRAMBLER_METHOD_SCRAMBLE_EMAIL,
+      );
+    }
+    if (isset($user_fields['password']) && ($user_fields['password'] == 1)) { 
+      $params['scrambler_user']['pass'] = array(
+        'base_table' => 'users',
+        'id' => 'uid',
+        'fields' => array('pass'),
+        'method' => SCRAMBLER_METHOD_SHUFFLE_CHARACTERS,
+      );
+    }
+  }
+
+  return $params;
 }
