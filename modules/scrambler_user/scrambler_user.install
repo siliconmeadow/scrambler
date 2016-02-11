@@ -5,7 +5,7 @@
  */
 
 /**
- * Implements hook_uninstall).
+ * Implements hook_uninstall().
  */
 function scrambler_user_uninstall() {
   variable_del('scrambler_user');

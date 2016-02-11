@@ -180,5 +180,5 @@ function _scrambler_method_helper_unparse_url(array $parsed) {
  *   Returns the key value of the array or NULL if the key not exists.
  */
 function _scrambler_method_helper_parsed_value($parsed, $key) {
-  return isset($parsed[$key]) ? $parsed[$key] : null;
+  return isset($parsed[$key]) ? $parsed[$key] : NULL;
 }

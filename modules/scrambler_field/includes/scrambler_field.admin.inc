@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- *   Contains administration functionality for scrambler fields.
+ * Contains administration functionality for scrambler fields.
  */
 
 /**
@@ -65,7 +65,7 @@ function scrambler_field_fields_form($form, &$form_state) {
     return array();
   }
 
-  $scrambleController = new \Drupal\scrambler\Controller\ScrambleController();
+  $scramble_controller = new \Drupal\scrambler\Controller\ScrambleController();
   $scramble = new \Drupal\scrambler_field\BLL\Scramble();
   $fields = $scramble->getScramblerFields(FALSE);
   $form['scrambler_fields'] = array(
@@ -85,7 +85,7 @@ function scrambler_field_fields_form($form, &$form_state) {
       '#type' => 'radios',
       '#title' => t('Method'),
       '#description' => t('Select a scramble method for the selected field.'),
-      '#options' => $scrambleController->getMethods(),
+      '#options' => $scramble_controller->getMethods(),
       '#required' => TRUE,
     );
     $form['scrambler_fields']['submit'] = array(

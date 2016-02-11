@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- *   Contains the configuration controllers.
+ * Contains the configuration controllers.
  */
 
 namespace Drupal\scrambler_field\Controller;
@@ -19,7 +19,7 @@ class ConfigController {
    */
   public function getMenuItems() {
     return array(
-      'admin/config/development/scrambler/fields' =>  array(
+      'admin/config/development/scrambler/fields' => array(
         'title' => 'Configure Fields Scrambler',
         'description' => 'Configure which fields need to be scrambled.',
         'page callback' => 'scrambler_field_administer_fields_page',
@@ -31,4 +31,5 @@ class ConfigController {
       ),
     );
   }
+
 }

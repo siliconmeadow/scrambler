@@ -1,0 +1,14 @@
+<?php
+/**
+ * @file
+ * Scrambler web interface.
+ */
+
+use Drupal\scrambler_ui\Controller\ConfigController;
+
+/**
+ * Implements hook_menu().
+ */
+function scrambler_ui_menu() {
+  return ConfigController::getMenuItems();
+}

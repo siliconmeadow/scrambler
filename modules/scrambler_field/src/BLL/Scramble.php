@@ -1,16 +1,23 @@
 <?php
 /**
+ * @file
  * Contains all Fields scramble functionalities.
  */
 
 namespace Drupal\scrambler_field\BLL;
 
+
 /**
- * Description of Scramble class
+ * Class Scramble.
+ *
+ * @package Drupal\scrambler_field\BLL
  */
 class Scramble {
   /**
    * Get a simple fields array.
+   *
+   * @param bool $all
+   *   Check if we need to get all fields.
    *
    * @return array
    *   Returns an array of fields.
@@ -18,6 +25,7 @@ class Scramble {
   public function getScramblerFields($all = TRUE) {
     $entities = entity_load('scrambler_field');
     $fields = field_info_fields();
+    $result = array();
 
     if (!array_key_exists(-1, $entities)) {
       $result = array(-1 => 'title');
@@ -108,7 +116,10 @@ class Scramble {
    *   Returns the table name, on failure returns NULL.
    */
   private function getFieldTableName($field, $type) {
-    if (isset($field['storage']['details']['sql'][$type]) &&
+    if (isset($field['storage']) &&
+        isset($field['storage']['details']) &&
+        isset($field['storage']['details']['sql']) &&
+        isset($field['storage']['details']['sql'][$type]) &&
         is_array($field['storage']['details']['sql'][$type])) {
       $arr_table = array_keys($field['storage']['details']['sql'][$type]);
       return $arr_table[0];
