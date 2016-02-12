@@ -49,7 +49,12 @@ function scrambler_example_scrambler_methods() {
 
 /**
  * Custom scrambling method by the scrambler_example module.
- * @param type $data
+ *
+ * @param string $data
+ *   Input data to scramble.
+ *
+ * @return string
+ *   Returns the scrambled string.
  */
 function _scrambler_example_method_custom_scrambling(&$data) {
   // Manipulate the $data parameter in which way you think is necessary.
