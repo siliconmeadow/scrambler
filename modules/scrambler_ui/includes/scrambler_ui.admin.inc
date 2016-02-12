@@ -41,13 +41,16 @@ function scrambler_ui_administration_process_page() {
 
   $batch = array(
     'title' => t('Scrambling data'),
-    'init_message' => t('Starting Scrambler.'),
+    'init_message' => t('Depending on the amount, scrambling might be a lengthy and resourceful batch.'),
     'error_message' => t('An error occurred'),
-    'operations' => array(),
+    'operations' => array(
+      array('scrambler_ui_administration_processor', array()),
+    ),
     'finished' => 'scrambler_ui_administration_process_page_finished',
+    'file' => drupal_get_path('module', 'scrambler_ui') . '/includes/scrambler_ui.admin.inc',
   );
 
-  $batch['operations'][] = array('scrambler_ui_administration_processor', array('all'));
+  $batch['progressive'] = TRUE;
 
   batch_set($batch);
 }
@@ -64,14 +67,22 @@ function scrambler_ui_administration_processor($selector, &$context) {
   $api = new scrambler\API();
   $api->scramble();
   $context['results']['processed']++;
-  $context['message'] = t('Scramble process active.');
-
-  // @todo: provide feedback with: $context['message'] = t('Now processing %item on %table');
+  $context['message'] = t('Working...');
 }
 
 /**
  * Provide feedback after the scrambling is done.
  */
-function scrambler_administration_process_page_finished() {
-  drupal_set_message(t('Scramble finished.'));
+function scrambler_administration_process_page_finished($success, $results, $operations) {
+  if ($success) {
+    drupal_set_message(t('Scramble finished.'));
+  }
+  else {
+    $error_operation = reset($operations);
+    $message = t('An error occurred while processing %error_operation with arguments: @arguments', array(
+      '%error_operation' => $error_operation[0],
+      '@arguments' => print_r($error_operation[1], TRUE),
+    ));
+    drupal_set_message($message, 'error');
+  }
 }
