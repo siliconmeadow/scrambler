@@ -20,6 +20,7 @@ class ScrambleController extends ConfigController {
    *   Returns an array of parameters of all implementations.
    */
   public function getImplementations() {
+    $parameters = array();
     $implementing_modules = module_implements('scrambler_api');
 
     foreach ($implementing_modules as $module) {
@@ -54,4 +55,5 @@ class ScrambleController extends ConfigController {
 
     return $methods;
   }
+
 }
