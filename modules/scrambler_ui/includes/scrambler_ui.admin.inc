@@ -20,7 +20,7 @@ function scrambler_ui_administration_execute_page() {
 
   $form['warning'] = array(
     '#type' => 'markup',
-    '#markup' => t('Do not execute this operation on your production database!'),
+    '#markup' => t('Do not execute this operation on your production database!') . '<br />' . t('If you have a large amount of data, please consider using Drush.'),
   );
 
   $form['actions'] = array('#type' => 'actions');
