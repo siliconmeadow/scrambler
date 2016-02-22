@@ -135,17 +135,43 @@ class API {
   /**
    * Start scrambling the database.
    *
+   * @param string $haystack
+   *   A machine name of a field to scramble on.
+   *
    * @return bool
    *   Returns only TRUE for now.
    */
-  public function scramble() {
-    foreach ($this->parameters->getImplementations() as $item) {
-      $this->scrambleImplementation($item);
+  public function scramble($haystack = NULL) {
+    if ($haystack != NULL) {
+      $this->scrambleImplementation($haystack);
+    }
+    else {
+      foreach ($this->parameters->getImplementations() as $item) {
+        $this->scrambleImplementation($item);
+      }
     }
 
     drupal_flush_all_caches();
 
     return TRUE;
+  }
+
+  /**
+   * Provide all groups in order to process them in batch.
+   *
+   * @return array
+   *   Contains all groups with module and implementation.
+   */
+  public function scrambleBatchGroups() {
+    $grouping = array();
+    foreach ($this->parameters->getImplementations() as $item) {
+      foreach ($item as $module => $groups) {
+        foreach ($groups as $group) {
+          $grouping[] = array($module => $group);
+        }
+      }
+    }
+    return $grouping;
   }
 
   /**
@@ -166,7 +192,7 @@ class API {
    * @param array $groups
    *   Contains the implementation groups structure array.
    */
-  private function scrambleImplementationGroup($module, $groups) {
+  public function scrambleImplementationGroup($module, $groups) {
     foreach ($groups as $group) {
       $object = $this->prepareScramblerObject($module, $group);
 
@@ -197,7 +223,7 @@ class API {
    * @return \Drupal\scrambler\ImplementationObject
    *   Returns an implementation object.
    */
-  private function prepareScramblerObject($module, $group) {
+  public function prepareScramblerObject($module, $group) {
     $object = new ImplementationObject();
     // Name of the module.
     $object->module = $module;
