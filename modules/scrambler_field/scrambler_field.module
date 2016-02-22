@@ -3,6 +3,7 @@
  * @file
  * Contains field configuration scrambling methods.
  */
+
 require_once 'includes/scrambler_field.entity.inc';
 require_once 'includes/scrambler_field.view.inc';
 

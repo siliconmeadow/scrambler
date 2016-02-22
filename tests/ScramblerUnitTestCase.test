@@ -205,6 +205,7 @@ class ScramblerUnitTestCase extends DrupalUnitTestCase {
  */
 class ScramblerDummy {
   /**
+   * Can contain a mixed variety of values, only used for testing purposes.
    * @var mixed
    */
   public $value;
@@ -215,7 +216,7 @@ class ScramblerDummy {
    * @param mixed $value
    *   Contains the value of the dummy object.
    */
-  function __construct($value) {
+  public function __construct($value) {
     $this->value = $value;
   }
 
