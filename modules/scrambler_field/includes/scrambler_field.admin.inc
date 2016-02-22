@@ -40,7 +40,7 @@ function scrambler_field_settings_form($form, &$form_state) {
 
   $form['menu'] = array(
     '#type' => 'markup',
-    '#markup' => theme_item_list($menu_entries),
+    '#markup' => theme('item_list', array('items' => $menu_entries)),
   );
 
   return $form;
