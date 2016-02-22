@@ -206,6 +206,7 @@ class ScramblerUnitTestCase extends DrupalUnitTestCase {
 class ScramblerDummy {
   /**
    * Can contain a mixed variety of values, only used for testing purposes.
+   *
    * @var mixed
    */
   public $value;
