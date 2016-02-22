@@ -85,7 +85,7 @@ class ImplementationObject {
    * @return array
    *   Returns all records where the methods have been applied.
    */
-  private function applyMethod($records) {
+  private function applyMethod(array $records) {
     $up_records = array();
     $function = $this->method;
 
@@ -113,12 +113,13 @@ class ImplementationObject {
    * @param int $value
    *   Field value of the key id to apply conditions.
    */
-  private function updateTable($table, $fields, $key, $value) {
+  private function updateTable($table, array $fields, $key, $value) {
     db_update($table)
       ->fields($fields)
       ->condition($key, $value)
       ->execute();
   }
+
 }
 
 /**
@@ -182,7 +183,7 @@ class API {
    * @param array $implementation
    *   Contains the implementation data structure array.
    */
-  private function scrambleImplementation($implementation) {
+  private function scrambleImplementation(array $implementation) {
     foreach ($implementation as $module => $groups) {
       $this->scrambleImplementationGroup($module, $groups);
     }
@@ -191,10 +192,12 @@ class API {
   /**
    * Scramble the implementation group.
    *
+   * @param string $module
+   *   Contains the module name.
    * @param array $groups
    *   Contains the implementation groups structure array.
    */
-  public function scrambleImplementationGroup($module, $groups) {
+  public function scrambleImplementationGroup($module, array $groups) {
     foreach ($groups as $group) {
       $object = $this->prepareScramblerObject($module, $group);
 
@@ -225,7 +228,7 @@ class API {
    * @return \Drupal\scrambler\ImplementationObject
    *   Returns an implementation object.
    */
-  public function prepareScramblerObject($module, $group) {
+  public function prepareScramblerObject($module, array $group) {
     $object = new ImplementationObject();
     // Name of the module.
     $object->module = $module;
@@ -256,7 +259,7 @@ class API {
    * @return string|bool
    *   Returns the method name or FALSE if the method name does not exist.
    */
-  private function getMethodName($module, $params) {
+  private function getMethodName($module, array $params) {
     // First check if the group method exists.
     $method = '_' . $module . '_method_' . $params['method'];
 

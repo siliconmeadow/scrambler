@@ -82,7 +82,7 @@ function scrambler_field_views_default_views() {
  * @param array $vars
  *   Contains all the variable information of the views_view_table theme.
  */
-function scrambler_field_preprocess_views_view_table(&$vars) {
+function scrambler_field_preprocess_views_view_table(array &$vars) {
   $scramble = new \Drupal\scrambler_field\BLL\Scramble();
   $fields = $scramble->getScramblerFields();
 

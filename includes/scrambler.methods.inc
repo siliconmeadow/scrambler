@@ -3,6 +3,7 @@
  * @file
  * Contains the default scrambler scramble methods.
  */
+
 // Define method constants.
 define('SCRAMBLER_METHOD_SHUFFLE_CHARACTERS', 'shuffle_characters');
 define('SCRAMBLER_METHOD_SHUFFLE_WORDS', 'shuffle_words');
@@ -146,6 +147,7 @@ function _scrambler_method_scramble_url(&$data) {
  *
  * @param array $parsed
  *   Parsed url array.
+ *
  * @return string
  *   Returns an unparsed url.
  */
@@ -179,6 +181,6 @@ function _scrambler_method_helper_unparse_url(array $parsed) {
  * @return string|NULL
  *   Returns the key value of the array or NULL if the key not exists.
  */
-function _scrambler_method_helper_parsed_value($parsed, $key) {
+function _scrambler_method_helper_parsed_value(array $parsed, $key) {
   return isset($parsed[$key]) ? $parsed[$key] : NULL;
 }

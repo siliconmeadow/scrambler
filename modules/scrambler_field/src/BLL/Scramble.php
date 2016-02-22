@@ -49,7 +49,7 @@ class Scramble {
    * @return bool
    *   Returns TRUE if field is stored in sql.
    */
-  private function fieldStoredInSql($field) {
+  private function fieldStoredInSql(array $field) {
     return array_key_exists('storage', $field) &&
       array_key_exists('type', $field['storage']) &&
       ($field['storage']['type'] == 'field_sql_storage');
@@ -115,7 +115,7 @@ class Scramble {
    * @return NULL|string
    *   Returns the table name, on failure returns NULL.
    */
-  private function getFieldTableName($field, $type) {
+  private function getFieldTableName(array $field, $type) {
     if (isset($field['storage']) &&
         isset($field['storage']['details']) &&
         isset($field['storage']['details']['sql']) &&
@@ -127,4 +127,5 @@ class Scramble {
 
     return NULL;
   }
+
 }

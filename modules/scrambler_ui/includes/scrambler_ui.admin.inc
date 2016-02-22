@@ -75,7 +75,7 @@ function scrambler_ui_administration_process_page() {
  * @param array $context
  *   Drupal's context for batch processing.
  */
-function scrambler_ui_administration_processor($module, $group, &$context) {
+function scrambler_ui_administration_processor($module, $group, array &$context) {
   $api = new scrambler\API();
   $object = $api->prepareScramblerObject($module, $group);
   $object->execute();

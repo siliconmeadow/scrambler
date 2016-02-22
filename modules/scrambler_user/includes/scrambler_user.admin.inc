@@ -15,9 +15,9 @@
  * @return array
  *   Returns the generated form object.
  */
-function scrambler_field_administer_users_form($form, &$form_state) {
+function scrambler_field_administer_users_form(array $form, array &$form_state) {
   $scrambler_user = variable_get('scrambler_user');
-  
+
   $form['scrambler_user'] = array(
     '#type' => 'fieldset',
     '#title' => t('Configure scrambling for the user data.'),
@@ -25,7 +25,7 @@ function scrambler_field_administer_users_form($form, &$form_state) {
   );
   $form['scrambler_user']['username'] = array(
     '#type' => 'checkbox',
-    '#title' => t('Username'),    
+    '#title' => t('Username'),
     '#description' => t('If username is an e-mail it scrambles the e-mail, else the username characters are scrambled.'),
     '#default_value' => isset($scrambler_user['username']) ? $scrambler_user['username'] : NULL,
   );

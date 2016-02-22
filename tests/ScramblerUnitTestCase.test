@@ -38,7 +38,7 @@ class ScramblerUnitTestCase extends DrupalUnitTestCase {
       $this->randomString(2),
       $this->randomString(2),
       $this->randomString(2),
-      $this->randomString(2)
+      $this->randomString(2),
     );
     foreach ($strings as $string) {
       $first = $second = $string;
@@ -185,11 +185,11 @@ class ScramblerUnitTestCase extends DrupalUnitTestCase {
   public function testMethodScrambleUrl() {
     $urls = array(
       $this->randomName(),
-      'http://' . $this->randomName(3) .'.'.$this->randomName().'.' . $this->randomName(3) . '/',
+      'http://' . $this->randomName(3) . '.' . $this->randomName() . '.' . $this->randomName(3) . '/',
       'http://u:p@foo:1/path/path?q#frag',
       'http://u:p@foo:1/path/path?#',
       'ssh://root@host',
-      '://:@:1/?#'
+      '://:@:1/?#',
     );
     foreach ($urls as $url) {
       $original = $url;
@@ -197,6 +197,7 @@ class ScramblerUnitTestCase extends DrupalUnitTestCase {
       $this->assertNotEqual($original, $url);
     }
   }
+
 }
 
 /**
@@ -212,8 +213,10 @@ class ScramblerDummy {
    * Class constructor for the dummy object.
    *
    * @param mixed $value
+   *   Contains the value of the dummy object.
    */
   function __construct($value) {
     $this->value = $value;
   }
+
 }

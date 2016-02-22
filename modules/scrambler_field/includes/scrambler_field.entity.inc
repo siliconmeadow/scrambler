@@ -35,7 +35,7 @@ function scrambler_field_entity_info() {
  * @return string
  *   Returns the field name.
  */
-function scrambler_field_entity_label_callback($entity, $type) {
+function scrambler_field_entity_label_callback(\Entity $entity, $type) {
   if ($type != 'scrambler_field') {
     return FALSE;
   }

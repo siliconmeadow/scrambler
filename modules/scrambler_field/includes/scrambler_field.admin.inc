@@ -26,12 +26,12 @@ function scrambler_field_administer_fields_page() {
  * @return array
  *   Returns the generated form object.
  */
-function scrambler_field_settings_form($form, &$form_state) {
+function scrambler_field_settings_form(array $form, array &$form_state) {
 
   $menu_entries = array(
     'items' => array(
-      l('General settings', 'admin/config/development/scrambler/general'),
-      l('Field settings', 'admin/config/development/scrambler/fields'),
+      l(t('General settings'), 'admin/config/development/scrambler/general'),
+      l(t('Field settings'), 'admin/config/development/scrambler/fields'),
     ),
     'type' => 'ul',
     'title' => t('Configure the scrambling process'),
@@ -57,7 +57,7 @@ function scrambler_field_settings_form($form, &$form_state) {
  * @return array
  *   Returns the generated form object.
  */
-function scrambler_field_fields_form($form, &$form_state) {
+function scrambler_field_fields_form(array $form, array &$form_state) {
   if (
     array_key_exists('form_id', $_POST) &&
     ($_POST['form_id'] != 'scrambler_field_fields_form')
@@ -110,7 +110,7 @@ function scrambler_field_fields_form($form, &$form_state) {
  * @param array $form_state
  *   The form state of the form object to be submitted.
  */
-function scrambler_field_fields_form_submit($form, &$form_state) {
+function scrambler_field_fields_form_submit(array $form, array &$form_state) {
   $scramble = new \Drupal\scrambler_field\BLL\Scramble();
   $fields = $scramble->getScramblerFields();
   if (array_key_exists($form_state['values']['scrambler_field'], $fields)) {

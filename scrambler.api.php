@@ -13,7 +13,7 @@
  * @return array
  *   Returns the parameters array.
  */
-function hook_scrambler_api(&$params) {
+function hook_scrambler_api(array &$params) {
   return $params;
   // Currently nothing is required in this hook.
 }

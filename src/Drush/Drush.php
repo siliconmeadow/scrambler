@@ -14,6 +14,8 @@ use Drupal\scrambler\API;
 class Drush {
 
   /**
+   * Contains the API object.
+   *
    * @var \Drupal\scrambler\API;
    */
   private $api;
@@ -48,4 +50,5 @@ class Drush {
             array(TRUE => 'Yes'), 'Are you sure to scramble the database? Be sure that you are not executing it on the production database.'
     );
   }
+
 }
