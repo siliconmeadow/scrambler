@@ -87,13 +87,14 @@ class ImplementationObject {
    */
   private function applyMethod($records) {
     $up_records = array();
-
     $function = $this->method;
 
     while ($record = $records->fetchAssoc()) {
       foreach ($this->fields as $field) {
-        $function($record[$field]);
-        $up_records[] = $record;
+        if (!empty($record[$field])) {
+          $function($record[$field]);
+          $up_records[] = $record;
+        }
       }
     }
 
@@ -142,6 +143,7 @@ class API {
    *   Returns only TRUE for now.
    */
   public function scramble($haystack = NULL) {
+
     if ($haystack != NULL) {
       $this->scrambleImplementation($haystack);
     }

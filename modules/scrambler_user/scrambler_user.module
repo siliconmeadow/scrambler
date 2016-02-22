@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- *   Contains scrambler user functions in order to scramble user data.
+ * Contains scrambler user functions in order to scramble user data.
  */
 
 /**
@@ -33,7 +33,7 @@ function scrambler_user_scrambler_api() {
 
   if (count($user_fields) > 0) {
     $params['scrambler_user'] = array();
-    if (isset($user_fields['username']) && ($user_fields['username'] == 1)) { 
+    if (isset($user_fields['username']) && ($user_fields['username'] == 1)) {
       $params['scrambler_user']['title'] = array(
         'base_table' => 'users',
         'id' => 'uid',
@@ -41,7 +41,7 @@ function scrambler_user_scrambler_api() {
         'method' => SCRAMBLER_METHOD_SCRAMBLE_EMAIL,
       );
     }
-    if (isset($user_fields['email']) && ($user_fields['email'] == 1)) { 
+    if (isset($user_fields['email']) && ($user_fields['email'] == 1)) {
       $params['scrambler_user']['email'] = array(
         'base_table' => 'users',
         'id' => 'uid',
@@ -49,7 +49,7 @@ function scrambler_user_scrambler_api() {
         'method' => SCRAMBLER_METHOD_SCRAMBLE_EMAIL,
       );
     }
-    if (isset($user_fields['password']) && ($user_fields['password'] == 1)) { 
+    if (isset($user_fields['password']) && ($user_fields['password'] == 1)) {
       $params['scrambler_user']['pass'] = array(
         'base_table' => 'users',
         'id' => 'uid',

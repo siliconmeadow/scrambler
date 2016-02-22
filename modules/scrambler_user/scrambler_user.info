@@ -5,3 +5,4 @@ package = Data security
 core = 7.x
 
 dependencies[] = scrambler
+dependencies[] = scrambler_ui

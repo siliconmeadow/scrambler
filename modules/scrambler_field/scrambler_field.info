@@ -6,6 +6,7 @@ core = 7.x
 
 dependencies[] = entity
 dependencies[] = scrambler
+dependencies[] = scrambler_ui
 dependencies[] = views
 dependencies[] = views_bulk_operations
 dependencies[] = xautoload
