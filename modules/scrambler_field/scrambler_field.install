@@ -23,12 +23,6 @@ function scrambler_field_schema() {
         'not null' => TRUE,
         'description' => "Define the method to be executed on scrambling.",
       ),
-      'status' => array(
-        'type' => 'int',
-        'not null' => TRUE,
-        'default' => 1,
-        'description' => "Enabled (1) or disabled (0).",
-      ),
     ),
     'primary key' => array('fid'),
   );

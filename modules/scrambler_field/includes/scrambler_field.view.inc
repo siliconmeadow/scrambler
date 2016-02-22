@@ -68,11 +68,6 @@ function scrambler_field_views_default_views() {
   $handler->display->display_options['fields']['scrambler_method']['table'] = 'scrambler_field';
   $handler->display->display_options['fields']['scrambler_method']['field'] = 'scrambler_method';
   $handler->display->display_options['fields']['scrambler_method']['label'] = 'Method';
-  /* Field: Scrambler field: Status */
-  $handler->display->display_options['fields']['status']['id'] = 'status';
-  $handler->display->display_options['fields']['status']['table'] = 'scrambler_field';
-  $handler->display->display_options['fields']['status']['field'] = 'status';
-  $handler->display->display_options['fields']['status']['separator'] = '';
 
   /* Display: Block */
   $handler = $view->new_display('block', 'Block', 'block');
