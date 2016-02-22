@@ -74,7 +74,7 @@ class ScramblerUnitTestCase extends DrupalUnitTestCase {
     _scrambler_method_shuffle_characters($firstint);
     $this->assertEqual($firstint, $secondint);
 
-    $firstobject = $secondobject = new Dummy($this->randomString(2));
+    $firstobject = $secondobject = new ScramblerDummy($this->randomString(2));
     _scrambler_method_shuffle_characters($firstobject);
     $this->assertEqual($firstobject, $secondobject);
   }
@@ -121,7 +121,7 @@ class ScramblerUnitTestCase extends DrupalUnitTestCase {
     _scrambler_method_shuffle_words($firstint);
     $this->assertEqual($firstint, $secondint);
 
-    $firstobject = $secondobject = new Dummy($this->randomString(2));
+    $firstobject = $secondobject = new ScramblerDummy($this->randomString(2));
     _scrambler_method_shuffle_words($firstobject);
     $this->assertEqual($firstobject, $secondobject);
   }
@@ -152,7 +152,7 @@ class ScramblerUnitTestCase extends DrupalUnitTestCase {
    * Test the empty_value method for a non string.
    */
   public function testMethodEmptyValueNonString() {
-    $first = $second = new Dummy($this->randomString(2));
+    $first = $second = new ScramblerDummy($this->randomString(2));
     _scrambler_method_empty_value($first);
     $this->assertEqual($first, $second);
   }
@@ -175,7 +175,7 @@ class ScramblerUnitTestCase extends DrupalUnitTestCase {
    * Test the scramble_email method for a non e-mail.
    */
   public function testMethodScrambleNonEmail() {
-    $first = $second = new Dummy($this->randomString(2));
+    $first = $second = new ScramblerDummy($this->randomString(2));
     $this->assertEqual($first, $second);
   }
 
@@ -200,9 +200,9 @@ class ScramblerUnitTestCase extends DrupalUnitTestCase {
 }
 
 /**
- * Dummy class used for testing purposes.
+ * Scrambler dummy class used for testing purposes.
  */
-class Dummy {
+class ScramblerDummy {
   /**
    * @var mixed
    */
