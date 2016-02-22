@@ -33,7 +33,7 @@ class Drush {
 
       $this->api->scramble();
 
-      drush_log(dt('Successfully scrambled fields.'), $type = 'ok');
+      drush_log(dt('Successfully scrambled fields.'), 'ok');
     }
   }
 

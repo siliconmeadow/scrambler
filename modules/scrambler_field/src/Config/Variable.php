@@ -1,15 +1,13 @@
 <?php
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * @file
+ * Contains Variable configuration for the scrambler field module.
  */
 
-
 namespace Drupal\scrambler_field\Config;
+
 /**
- * Description of Variable
- *
- * @author Greg Bakos <greg@londonfreelancers.co.uk>
+ * Variable class.
  */
 class Variable {
   private function getGeneralSettings() {
