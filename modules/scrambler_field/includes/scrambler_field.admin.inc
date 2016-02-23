@@ -58,10 +58,7 @@ function scrambler_field_settings_form(array $form, array &$form_state) {
  *   Returns the generated form object.
  */
 function scrambler_field_fields_form(array $form, array &$form_state) {
-  if (
-    array_key_exists('form_id', $_POST) &&
-    ($_POST['form_id'] != 'scrambler_field_fields_form')
-  ) {
+  if (_scrambler_field_show_fields_form()) {
     return array();
   }
 
@@ -125,4 +122,18 @@ function scrambler_field_fields_form_submit(array $form, array &$form_state) {
     $entity->scrambler_method = $form_state['values']['scrambler_method'];
     $entity->save();
   }
+}
+
+/**
+ * Helper function to verify if the fields form should be shown.
+ *
+ * @return bool
+ *   Returns TRUE or FALSE.
+ */
+function _scrambler_field_show_fields_form() {
+  return (bool) (
+    isset($_POST['operation']) &&
+    isset($_POST['views_bulk_operations']) &&
+    ($_POST['operation'] == 'action::views_bulk_operations_delete_item')
+  );
 }
