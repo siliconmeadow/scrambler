@@ -85,7 +85,7 @@ class ImplementationObject {
    * @return array
    *   Returns all records where the methods have been applied.
    */
-  private function applyMethod(array $records) {
+  private function applyMethod(\DatabaseStatementBase $records) {
     $up_records = array();
     $function = $this->method;
 
