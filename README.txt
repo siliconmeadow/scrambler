@@ -110,7 +110,7 @@ MAINTAINERS
 
 Current maintainers:
  * Nico Knaepen (nico.knaepen) - https://www.drupal.org/u/nico.knaepen
- * Kevin Thiels (novitsh) - https://www.drupal.org/u/novitsh
+ * Kevin Thiels (Novitsh) - https://www.drupal.org/u/novitsh
 
 This project has been sponsored by:
  * LOGIC IN MOTION
