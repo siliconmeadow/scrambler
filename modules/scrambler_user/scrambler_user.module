@@ -27,7 +27,7 @@ function scrambler_user_menu() {
  * Implements hook_scrambler_api().
  */
 function scrambler_user_scrambler_api() {
-  $scrambler_user = variable_get('scrambler_user');
+  $scrambler_user = variable_get('scrambler_user', array());
   $user_fields = array_filter($scrambler_user);
   $params = array();
 
