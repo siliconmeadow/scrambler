@@ -71,6 +71,21 @@ class Scramble {
   }
 
   /**
+   * Determine if the array contains fid so we can determine if it's a file.
+   *
+   * @param array $object
+   * @return bool
+   */
+  public function isFile(array $object) {
+    $is_file = FALSE;
+    if (isset($object['fid'])) {
+      $is_file = TRUE;
+    }
+
+    return $is_file;
+  }
+
+  /**
    * Get the scramble data by field id.
    *
    * @param int $fid
@@ -94,11 +109,14 @@ class Scramble {
       );
       $data['field_name'] = $field['field_name'];
       $data['id'] = 'revision_id';
-      $data['fields'] = array($field['storage']['details']['sql'][FIELD_LOAD_CURRENT][$data['base_table']]['value']);
+      $current_field = $field['storage']['details']['sql'][FIELD_LOAD_CURRENT];
 
-      if (!isset($data['base_table'])) {
+      // Base table should exists. If the field is considered a file, abort.
+      if (!isset($data['base_table']) || $this->isFile($current_field[$data['base_table']])) {
         return FALSE;
       }
+
+      $data['fields'] = array($current_field[$data['base_table']]['value']);
 
       return $data;
     }
