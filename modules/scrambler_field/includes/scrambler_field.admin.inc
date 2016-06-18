@@ -74,7 +74,7 @@ function scrambler_field_fields_form(array $form, array &$form_state) {
     $form['scrambler_fields']['scrambler_field'] = array(
       '#type' => 'select',
       '#title' => t('Field'),
-      '#description' => t('Select the field you want to scramble.'),
+      '#description' => t('Select the field you want to scramble. File fields are removed from this selection.'),
       '#options' => $fields,
       '#required' => TRUE,
     );

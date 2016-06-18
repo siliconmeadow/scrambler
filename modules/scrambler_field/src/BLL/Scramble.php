@@ -32,7 +32,7 @@ class Scramble {
     }
 
     foreach ($fields as $key => $field) {
-      if ($all || !array_key_exists($field['id'], $entities)) {
+      if ($all || !array_key_exists($field['id'], $entities) && !$this->isFile($field['indexes'])) {
         $result[$field['id']] = $key;
       }
     }
