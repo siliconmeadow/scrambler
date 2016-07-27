@@ -74,7 +74,10 @@ class Scramble {
    * Determine if the array contains fid so we can determine if it's a file.
    *
    * @param array $object
+   *   The array representing the object.
+   *
    * @return bool
+   *   TRUE if the object contains a fid key.
    */
   public function isFile(array $object) {
     $is_file = FALSE;
