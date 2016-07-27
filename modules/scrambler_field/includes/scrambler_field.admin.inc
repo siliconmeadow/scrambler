@@ -79,7 +79,7 @@ function scrambler_field_fields_form(array $form, array &$form_state) {
       '#required' => TRUE,
     );
     $form['scrambler_fields']['scrambler_method'] = array(
-      '#type' => 'radios',
+      '#type' => 'select',
       '#title' => t('Method'),
       '#description' => t('Select a scramble method for the selected field.'),
       '#options' => $scramble_controller->getMethods(),
