@@ -1,5 +1,8 @@
 language: php
 
+# We need this to run PHP5.3 still.
+group: deprecated-2017Q4
+
 php:
   - 5.3
   - 5.4
