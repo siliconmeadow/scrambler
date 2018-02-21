@@ -12,6 +12,9 @@ function scrambler_drush_command() {
   $items['scramble'] = array(
     'description' => 'Scramble data.',
     'aliases' => array('scr-d'),
+    'arguments' => array(
+      'i-understand-the-risks' => 'Acknowledge you are sure! Useful when running a CI tool',
+    ),
   );
 
   return $items;
@@ -20,7 +23,7 @@ function scrambler_drush_command() {
 /**
  * Executes the scramble data command.
  */
-function drush_scrambler_scramble() {
+function drush_scrambler_scramble($option) {
   $drush = new \Drupal\scrambler\Drush\Drush();
-  $drush->execute();
+  $drush->execute($option);
 }

@@ -30,17 +30,25 @@ class Drush {
   /**
    * Acknowledge execution and start scrambling.
    */
-  public function execute() {
-    if ($this->proceed()) {
-
+  public function execute($option=NULL) {
+    // Assuming you want to continue with a one-liner in your shell.
+    // This is useful for CI tools.
+    if ($option === 'i-understand-the-risks') {
+      drush_log(dt('Start scrambling fields (option: i-understand-the-risks).'), 'ok');
       $this->api->scramble();
+      drush_log(dt('Successfully scrambled fields.'), 'ok');
+    }
 
+    // Prompt the user with a question.
+    elseif ($this->proceed()) {
+      drush_log(dt('Start scrambling fields.'), 'ok');
+      $this->api->scramble();
       drush_log(dt('Successfully scrambled fields.'), 'ok');
     }
   }
 
   /**
-   * Acknowlodge to proceed.
+   * Acknowledge to proceed.
    *
    * @return bool
    *   Returns TRUE if choice is yes.
