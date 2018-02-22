@@ -10,7 +10,6 @@
 function scrambler_field_views_api() {
   return array(
     'api' => 3.0,
-    'path' => drupal_get_path('module', 'HOOK'),
   );
 }
 
@@ -37,7 +36,7 @@ function scrambler_field_views_default_views() {
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['exposed_form']['type'] = 'basic';
   $handler->display->display_options['pager']['type'] = 'full';
-  $handler->display->display_options['pager']['options']['items_per_page'] = '10';
+  $handler->display->display_options['pager']['options']['items_per_page'] = '50';
   $handler->display->display_options['style_plugin'] = 'table';
   /* Field: Bulk operations: Scrambler field */
   $handler->display->display_options['fields']['views_bulk_operations']['id'] = 'views_bulk_operations';
@@ -59,10 +58,19 @@ function scrambler_field_views_default_views() {
       'label' => '',
     ),
   );
-  /* Field: Scrambler field: Field name */
-  $handler->display->display_options['fields']['field_name']['id'] = 'field_name';
-  $handler->display->display_options['fields']['field_name']['table'] = 'scrambler_field';
-  $handler->display->display_options['fields']['field_name']['field'] = 'field_name';
+
+  /* Field: Scrambler field: field ID */
+  $handler->display->display_options['fields']['fid']['id'] = 'fid';
+  $handler->display->display_options['fields']['fid']['table'] = 'scrambler_field';
+  $handler->display->display_options['fields']['fid']['field'] = 'fid';
+  $handler->display->display_options['fields']['fid']['label'] = 'Field config id';
+  $handler->display->display_options['fields']['fid']['separator'] = '';
+  /* Field: Scrambler field: field name */
+  $handler->display->display_options['fields']['field_machine_name']['id'] = 'field_machine_name';
+  $handler->display->display_options['fields']['field_machine_name']['table'] = 'scrambler_field';
+  $handler->display->display_options['fields']['field_machine_name']['field'] = 'fid';
+  $handler->display->display_options['fields']['field_machine_name']['label'] = 'Field name';
+  $handler->display->display_options['fields']['field_machine_name']['separator'] = '';
   /* Field: Scrambler field: Scrambler_method */
   $handler->display->display_options['fields']['scrambler_method']['id'] = 'scrambler_method';
   $handler->display->display_options['fields']['scrambler_method']['table'] = 'scrambler_field';
@@ -87,8 +95,8 @@ function scrambler_field_preprocess_views_view_table(array &$vars) {
   $fields = $scramble->getScramblerFields();
 
   foreach ($vars['rows'] as &$row) {
-    if ($row['field_name'] != 0) {
-      $row['field_name'] = $fields[$row['field_name']];
+    if (!empty($row['field_machine_name'])) {
+      $row['field_machine_name'] = $fields[$row['field_machine_name']];
     }
   }
 }

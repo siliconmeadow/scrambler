@@ -10,6 +10,18 @@
 function scrambler_field_schema() {
   $schema['scrambler_field'] = array(
     'description' => 'Scramble fields configuration table',
+    'export' => array(
+      'key' => 'field_name',
+      'key name' => 'Field name',
+      'primary key' => 'fid',
+      'identifier' => 'preset',
+      'api' => array(
+        'owner' => 'scrambler_field',
+        'api' => 'default_scrambler_field_presets',
+        'minimum_version' => 1,
+        'current_version' => 1,
+      ),
+    ),
     'fields' => array(
       'fid' => array(
         'type' => 'int',
@@ -21,11 +33,53 @@ function scrambler_field_schema() {
         'type' => 'varchar',
         'length' => 100,
         'not null' => TRUE,
-        'description' => "Define the method to be executed on scrambling.",
+        'description' => 'Define the method to be executed on scrambling.',
       ),
     ),
     'primary key' => array('fid'),
   );
 
   return $schema;
+}
+
+/**
+ * Installs new field 'field name'.
+ */
+function scrambler_field_update_7001() {
+  $field_name = array(
+    'type' => 'varchar',
+    'length' => 180,
+    'not null' => FALSE,
+    'description' => 'The field name.',
+  );
+
+  db_add_field('scrambler_field', 'field_name', $field_name);
+
+  $scramble = new \Drupal\scrambler_field\BLL\Scramble();
+  $field_info = $scramble->getScramblerFields();
+
+  $configured_fields = db_select('scrambler_field', 'sf')
+    ->fields('sf', array('fid'))
+    ->execute()
+    ->fetchAll();
+
+
+  // Update all fields to work with the field machine name instead of an id.
+  foreach ($configured_fields as $field) {
+    db_update('scrambler_field')
+      ->fields(array(
+        // Drupal returns -1 for the title. This is not a 'real' field in D7.
+        'field_name' => $field->fid === '-1' ? 'title' : $field_info[$field->fid],
+      ))
+    ->condition('fid', $field->fid, '=')
+    ->execute();
+  }
+
+  // Make sure we clear the cache for our View.
+  $view = views_get_view('scrambler_fields_administrative_view');
+  $view->delete();
+  // Clear its cache.
+  ctools_include('object-cache');
+  ctools_object_cache_clear('view', $view->name);
+
 }

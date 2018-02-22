@@ -23,7 +23,7 @@ function scrambler_drush_command() {
 /**
  * Executes the scramble data command.
  */
-function drush_scrambler_scramble($option) {
+function drush_scrambler_scramble($option=NULL) {
   $drush = new \Drupal\scrambler\Drush\Drush();
   $drush->execute($option);
 }

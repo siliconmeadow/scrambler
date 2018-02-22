@@ -5,6 +5,7 @@ package = Data security
 core = 7.x
 
 dependencies[] = entity
+dependencies[] = ctools
 dependencies[] = scrambler
 dependencies[] = scrambler_ui
 dependencies[] = views

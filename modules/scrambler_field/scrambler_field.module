@@ -61,3 +61,12 @@ function scrambler_field_scrambler_api() {
 
   return $params;
 }
+
+/**
+ * Implements hook_ctools_plugin_api().
+ */
+function scrambler_field_ctools_plugin_api($owner, $api) {
+  if ($owner == 'scrambler_field' && $api == 'default_scrambler_field_presets') {
+    return array('version' => 1);
+  }
+}

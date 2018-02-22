@@ -119,6 +119,7 @@ function scrambler_field_fields_form_submit(array $form, array &$form_state) {
     );
     $entity = entity_create('scrambler_field', array());
     $entity->fid = $form_state['values']['scrambler_field'];
+    $entity->field_name = $fields[$entity->fid];
     $entity->scrambler_method = $form_state['values']['scrambler_method'];
     $entity->save();
   }
