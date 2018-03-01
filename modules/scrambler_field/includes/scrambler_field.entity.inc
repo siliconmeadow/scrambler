@@ -49,21 +49,3 @@ function scrambler_field_entity_label_callback(\Entity $entity, $type) {
     return empty($field['field_name']) ? t('Unknown field_name') : $field['field_name'];
   }
 }
-
-/**
- * Implements hook_entity_property_info().
- */
-function scrambler_field_entity_property_info() {
-  return array(
-    'scrambler_field' => array(
-      'properties' => array(
-        'field_name' => array(
-          'type' => 'text',
-          'label' => t('Field name'),
-          'description' => t('Field name by fid'),
-          'schema field' => 'fid',
-        ),
-      ),
-    ),
-  );
-}
