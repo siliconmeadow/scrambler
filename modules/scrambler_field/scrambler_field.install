@@ -29,6 +29,12 @@ function scrambler_field_schema() {
         'not null' => TRUE,
         'description' => 'Fields id.',
       ),
+      'field_name' => array(
+        'type' => 'varchar',
+        'length' => 180,
+        'not null' => FALSE,
+        'description' => 'The field name.',
+      ),
       'scrambler_method' => array(
         'type' => 'varchar',
         'length' => 100,
