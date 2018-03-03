@@ -1,0 +1,12 @@
+<?php
+/**
+ * @file
+ * Scrambler comment install and update hooks.
+ */
+
+/**
+ * Implements hook_uninstall().
+ */
+function scrambler_comments_uninstall() {
+  variable_del('scrambler_comments');
+}

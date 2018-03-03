@@ -1,0 +1,64 @@
+<?php
+/**
+ * @file
+ * A module to scramble names and addresses in comments.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function scrambler_comments_menu() {
+  return array(
+    'admin/config/development/scrambler/comments' => array(
+      'title' => 'Configure Comments Scrambler',
+      'description' => 'Configure what user data from comments needs to be scrambled.',
+      'page callback' => 'drupal_get_form',
+      'page arguments' => array('scrambler_field_administer_comments_form'),
+      'weight' => -10,
+      'type' => MENU_LOCAL_TASK,
+      'access arguments' => array('administer scrambler comments'),
+      'file' => 'includes/scrambler_comments.admin.inc',
+      'file path' => drupal_get_path('module', 'scrambler_comments'),
+    ),
+  );
+}
+
+
+/**
+ * Implements hook_scrambler_api().
+ */
+function scrambler_comments_scrambler_api() {
+  $scrambler_comments = variable_get('scrambler_comments', array());
+  $comments_fields = array_filter($scrambler_comments);
+  $params = array();
+
+  if (count($comments_fields) > 0) {
+    $params['scrambler_comments'] = array();
+    if (isset($comments_fields['name']) && ($comments_fields['name'] == 1)) {
+      $params['scrambler_comments']['name'] = array(
+        'base_table' => 'comment',
+        'id' => 'cid',
+        'fields' => array('name'),
+        'method' => SCRAMBLER_METHOD_SHUFFLE_CHARACTERS,
+      );
+    }
+    if (isset($comments_fields['mail']) && ($comments_fields['mail']) == 1) {
+      $params['scrambler_comments']['mail'] = array(
+        'base_table' => 'comment',
+        'id' => 'cid',
+        'fields' => array('mail'),
+        'method' => SCRAMBLER_METHOD_SCRAMBLE_EMAIL,
+      );
+    }
+    if (isset($comments_fields['homepage']) && ($comments_fields['homepage']) == 1) {
+      $params['scrambler_comments']['homepage'] = array(
+        'base_table' => 'comment',
+        'id' => 'cid',
+        'fields' => array('homepage'),
+        'method' => SCRAMBLER_METHOD_SCRAMBLE_URL,
+      );
+    }
+  }
+
+    return $params;
+}

@@ -1,0 +1,9 @@
+name = Scrambler Comments
+description = Scrambles the name and email addresses of commenters.
+configure = admin/config/development/scrambler/comments
+package = Data security
+core = 7.x
+
+dependencies[] = scrambler
+dependencies[] = scrambler_ui
+dependencies[] = comment
